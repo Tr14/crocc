@@ -14,7 +14,7 @@ app.use(cors())
 
 const path = require('path');
 
-const auth = new GoogleAuth({
+const auth = new google.auth.GoogleAuth({
   credentials: {
     client_email:
       "teambuilding2024@clever-tap-5e29f.iam.gserviceaccount.com", //Placeholder client_email value
@@ -60,9 +60,8 @@ app.post('/checksheet', async (req, res) => {
 
     ////// Different Email
     // add scanner email to sheet
-    //const inputValues = [user_id, scanner_email];
+    const inputValues = [user_id, scanner_email];
 
-    /*
     const { data: { values } } = await sheets.spreadsheets.values.get({ spreadsheetId, range });
     await sheets.spreadsheets.values.update({
       spreadsheetId,
@@ -70,7 +69,6 @@ app.post('/checksheet', async (req, res) => {
       resource: { values: values.map((r) => inputValues.includes(r[0]) ? [r[0], r[1], r[2], r[3], r[4], scanner_email] : r) },
       valueInputOption: "USER_ENTERED",
     });
-    */
 
     // add object name for each data
     const updatedRows = rows.map(row => ({
