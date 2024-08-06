@@ -34,87 +34,84 @@ const spreadsheetId = "1GPLirSLi1oH6Zcu2fOjiSHsxNdCrMz_-jPXiSAmQ3gk"; // Please 
 const range = "user!A2:H"; // Please set your sheet name.
 
 app.post('/checksheet', async (req, res) => {
-  const response = await sheets.spreadsheets.values.get({
-    spreadsheetId,
-    range,
-  });
-  const rows = response.data.values;
-
-  for (let i = 0; i < req.body.data.length; i++) {
-    let user_id = req.body.data[i].ID
-    let scanner_email = req.body.data[i].EMAIL_ADDRESS
-
-    ////// Same Email
-    // add object name for each data
-    const updatedRows_same = rows.map(row => ({
-      user_id: row[0],
-      owner_email: row[1],
-      username: row[2],
-      role: row[3],
-      status: row[4]
-    }));
-
-    // filter data
-    let filteredArray_same = updatedRows_same.filter(obj => obj.user_id === user_id && obj.owner_email === scanner_email)
-
-
-    ////// Different Email
-    // add scanner email to sheet
-    const inputValues = [user_id, scanner_email];
-
-    const { data: { values } } = await sheets.spreadsheets.values.get({ spreadsheetId, range });
-    await sheets.spreadsheets.values.update({
-      spreadsheetId,
-      range,
-      resource: { values: values.map((r) => inputValues.includes(r[0]) ? [r[0], r[1], r[2], r[3], r[4], scanner_email] : r) },
-      valueInputOption: "USER_ENTERED",
+    const response = await sheets.spreadsheets.values.get({
+        spreadsheetId,
+        range,
     });
+    const rows = response.data.values;
 
-    // add object name for each data
-    const updatedRows = rows.map(row => ({
-      user_id: row[0],
-      owner_email: row[1],
-      username: row[2],
-      role: row[3],
-      status: row[4],
-      scanner_email: scanner_email
-    }));
+    for (let i = 0; i < req.body.data.length; i++) {
+        let user_id = req.body.data[i].ID
+        let scanner_email = req.body.data[i].EMAIL_ADDRESS
 
-    // filter data
-    let filteredArray_dif = updatedRows.filter(obj => obj.user_id === user_id && obj.owner_email != scanner_email)
-    
-    // add more data to object to pass to client-side
-    if (filteredArray_dif.length > 0) {
-      if (rows.length) {
-        for (let i = 0; i < rows.length; i++) {
-          if (rows[i][1] === scanner_email) {
-            let scanner_id = rows[i][0]
-            let scanner_role = rows[i][3]
-            filteredArray_dif = filteredArray_dif.map(obj => {
-              return {
-                ...obj,
-                scanner_id,
-                scanner_role
-              };
-            });
+        ////// Same Email
+        // add object name for each data
+        const updatedRows_same = rows.map(row => ({
+            user_id: row[0],
+            owner_email: row[1],
+            username: row[2],
+            role: row[3],
+            status: row[4]
+        }));
 
+        // filter data
+        let filteredArray_same = updatedRows_same.filter(obj => obj.user_id === user_id && obj.owner_email === scanner_email)
+        
+        // add object name for each data
+        const updatedRows = rows.map(row => ({
+            user_id: row[0],
+            owner_email: row[1],
+            username: row[2],
+            role: row[3],
+            status: row[4],
+            scanner_email: scanner_email
+        }));
+
+        // filter data
+        let filteredArray_dif = updatedRows.filter(obj => obj.user_id === user_id && obj.owner_email != scanner_email)
+
+        if (filteredArray_dif.length > 0) {
+            if (rows.length) {
+                for (let i = 0; i < rows.length; i++) {
+                    if (rows[i][1] === scanner_email) {
+                        let scanner_id = rows[i][0]
+                        let scanner_role = rows[i][3]
+                        filteredArray_dif = filteredArray_dif.map(obj => {
+                        return {
+                            ...obj,
+                            scanner_id,
+                            scanner_role
+                        };
+                        });
+
+                        const inputValues = [user_id, scanner_email];
+
+                        const { data: { values } } = await sheets.spreadsheets.values.get({ spreadsheetId, range });
+                        await sheets.spreadsheets.values.update({
+                            spreadsheetId,
+                            range,
+                            resource: { values: values.map((r) => inputValues.includes(r[0]) ? [r[0], r[1], r[2], r[3], r[4], scanner_email] : r) },
+                            valueInputOption: "USER_ENTERED",
+                        });
+
+                        res.status(201).json({
+                            message: 'OK',
+                            list: "filteredArray_dif",
+                            received: filteredArray_dif
+                        });
+                    }
+                }
+            }
+            console.log("A")
+        } else {
             res.status(201).json({
-              message: 'OK',
-              list: "filteredArray_dif",
-              received: filteredArray_dif
+                message: 'OK',
+                list: "filteredArray_same",
+                received: filteredArray_same
             });
-          }
+            console.log("B")
         }
-      }
     }
-    else {
-      res.status(201).json({
-        message: 'OK',
-        list: "filteredArray_same",
-        received: filteredArray_same
-      });
-    }
-  }
 })
 
 app.post('/updatestatus', async (req, res) => { 
@@ -135,6 +132,27 @@ app.post('/updatestatus', async (req, res) => {
     message: 'OK',
     received: []
   });
+})
+
+app.get('/getuser', async (req, res) => {
+    const response = await sheets.spreadsheets.values.get({
+        spreadsheetId,
+        range,
+    });
+    const rows = response.data.values;
+
+    const updatedRows = rows.map(row => ({
+        user_id: row[0],
+        owner_email: row[1],
+        username: row[2],
+        role: row[3],
+        status: row[4]
+    }));
+
+    res.status(201).json({
+        message: 'OK',
+        received: updatedRows
+    });
 })
 
 app.get('/', (req, res) => {

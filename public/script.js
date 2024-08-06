@@ -1,46 +1,72 @@
 let button = document.getElementById('btnSubmit');
 
 button.addEventListener('click', function () {
-    let user_id = "";
-    let scanner_email = "";
-
     user_id = new URL(document.location.toString()).searchParams.get('id');
-    scanner_email = document.getElementById('email').value;
-        
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-
-    const raw = JSON.stringify({
-        "data": [
-            {
-                "ID": user_id,
-                "EMAIL_ADDRESS": scanner_email
-            }
-        ]
-    });
-
-    const requestOptions = {
-        method: "POST",
-        headers: myHeaders,
-        body: raw,
+    scanner_email = document.getElementById('email').value + document.getElementById('token').value;
+    
+    const getOptions = {
+        method: "GET",
         redirect: "follow"
     };
 
-    fetch("https://dev.akadigital.net/checksheet", requestOptions)
-        .then((response) => response.json())
-        .then((result) => {
-            if (result.message === 'OK' && result.list === "filteredArray_same") {
-                //console.log(result)
-                window.location.href = '/detail?id=' + encodeURIComponent(result.received[0].user_id) + "&username=" + encodeURIComponent(result.received[0].username) + "&role=" + encodeURIComponent(result.received[0].role) + "&status=" + encodeURIComponent(result.received[0].status); // Redirect to the next page
-            }
-            else if (result.message === 'OK' && result.list === "filteredArray_dif") {
-                //console.log(result)
-                window.location.href = '/play?id=' + encodeURIComponent(result.received[0].user_id) + "&owner_role=" + encodeURIComponent(result.received[0].role) + "&scanner_role=" + encodeURIComponent(result.received[0].scanner_role);
-            } else {
-                console.log(result)
-                document.getElementById('errorMessage').innerHTML = "Vui lòng nhập đúng thông tin"
-                document.getElementById('errorMessage').style.display = "block"
-            }
+    fetch("https://dev.akadigital.net/getuser", getOptions)
+    .then((response) => response.json())
+    .then((result) => {
+        const isValuePresent = result.received.some(item => item.owner_email === scanner_email);
+        if (isValuePresent) {
+            postData()
+        } else {
+            document.getElementById('errorMessage').innerHTML = "Vui lòng nhập đúng email và token, không được phá"
+            document.getElementById('errorMessage').style.display = "block"
         }
-    ).catch((error) => console.error(error));
+    })
+    .catch((error) => console.error(error));
+    
+    async function postData() {
+            const myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+
+            const raw = JSON.stringify({
+                "data": [
+                    {
+                        "ID": user_id,
+                        "EMAIL_ADDRESS": scanner_email
+                    }
+                ]
+            });
+
+            const requestOptions = {
+                method: "POST",
+                headers: myHeaders,
+                body: raw,
+                redirect: "follow"
+            };
+
+            fetch("https://dev.akadigital.net/checksheet", requestOptions)
+                .then((response) => response.json())
+                .then((result_post) => {
+                    if (result_post.message === 'FAIL_0' && result_post.list === "filteredArray_dif") {
+                        //console.log(result)
+                        document.getElementById('errorMessage').innerHTML = "Vui lòng không để trống thông tin"
+                        document.getElementById('errorMessage').style.display = "block"
+                    }
+                    else if (result_post.message === 'FAIL_1' && result_post.list === "filteredArray_dif") {
+                        //console.log(result)
+                        document.getElementById('errorMessage').innerHTML = "Vui lòng nhập đúng định dạng email"
+                        document.getElementById('errorMessage').style.display = "block"
+                    }
+                    else if (result_post.message === 'OK' && result_post.list === "filteredArray_same") {
+                        //console.log(result_post)
+                        window.location.href = '/detail?id=' + encodeURIComponent(result_post.received[0].user_id) + "&username=" + encodeURIComponent(result_post.received[0].username) + "&role=" + encodeURIComponent(result_post.received[0].role) + "&status=" + encodeURIComponent(result_post.received[0].status); // Redirect to the next page
+                    }
+                    else if (result_post.message === 'OK' && result_post.list === "filteredArray_dif") {
+                        //console.log(result_post)
+                        window.location.href = '/play?id=' + encodeURIComponent(result_post.received[0].user_id) + "&owner_role=" + encodeURIComponent(result_post.received[0].role) + "&scanner_role=" + encodeURIComponent(result_post.received[0].scanner_role);
+                    } else {
+                        console.log(result_post)
+                    }
+                }
+            ).catch((error) => console.error(error));
+    }
+    
 });
