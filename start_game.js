@@ -31,7 +31,7 @@ const auth = new google.auth.GoogleAuth({
 const sheets = google.sheets({ auth, version: "v4" }); // This is from your showing script.
 
 const spreadsheetId = "1GPLirSLi1oH6Zcu2fOjiSHsxNdCrMz_-jPXiSAmQ3gk"; // Please set your Spreadsheet ID.
-const range = "userlist!A2:H"; // Please set your sheet name.
+const range = "user!A2:H"; // Please set your sheet name.
 
 app.post('/checksheet', async (req, res) => {
   const response = await sheets.spreadsheets.values.get({
