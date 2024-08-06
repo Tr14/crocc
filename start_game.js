@@ -120,14 +120,15 @@ app.post('/updatestatus', async (req, res) => {
   for (let i = 0; i < req.body.data.length; i++) {
     let user_id = req.body.data[i].ID
     let user_status = req.body.data[i].STATUS
+    let user_desc = req.body.data[i].DESC 
 
-    const inputValues = [user_id, user_status];
+    const inputValues = [user_id, user_status, user_desc];
 
     const { data: { values } } = await sheets.spreadsheets.values.get({ spreadsheetId, range });
     await sheets.spreadsheets.values.update({
       spreadsheetId,
       range,
-      resource: { values: values.map((r) => inputValues.includes(r[0]) ? [r[0], r[1], r[2], r[3], user_status] : r) },
+      resource: { values: values.map((r) => inputValues.includes(r[0]) ? [r[0], r[1], r[2], r[3], user_status, r[5], user_desc] : r) },
       valueInputOption: "USER_ENTERED",
     });
   }

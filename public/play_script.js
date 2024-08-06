@@ -58,7 +58,9 @@ window.onload = function () {
         const raw = JSON.stringify({
             "data": [
                 {
-                    "ID": scanner_id
+                    "ID": scanner_id,
+                    "STATUS": "Đã dẹo",
+                    "DESC": "Tự chui vào rọ"
                 }
             ]
         });
@@ -97,7 +99,8 @@ function btnAction() {
         "data": [
             {
                 "ID": user_id,
-                "STATUS": "Đã dẹo"
+                "STATUS": "Đã dẹo",
+                "DESC": "Bị quét bởi sói"
             }
         ]
     });
