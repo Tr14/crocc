@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<title>Team Building Game</title>
+
+<head>
+    <style>
+        .button {
+            background-color: #04AA6D;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+    </style>
+
+    <link rel="stylesheet" href="styles/css.css" type="text/css" media="screen" />
+    <script type="text/javascript" src="play_script.js" language="javascript"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h2 id="action">Chọn hành động đối với mục tiêu</h2>
+
+        <p>Vai trò của người bị quét: <span id="owner_role" style="font-weight: bold;"></span></p>
+
+        <button class="button" id="button-action-1" onclick="btnAction()">Loại bỏ</button>
+        <button class="button" id="button-action-2">Bỏ qua</button>
+    </div>
+</body>
+
+</html>
