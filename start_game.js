@@ -84,15 +84,17 @@ app.post('/checksheet', async (req, res) => {
                         };
                         });
 
-                        const inputValues = [user_id, scanner_email];
+                        if (filteredArray_dif[0].status != "Đã dẹo") {
+                            const inputValues = [user_id, scanner_email];
 
-                        const { data: { values } } = await sheets.spreadsheets.values.get({ spreadsheetId, range });
-                        await sheets.spreadsheets.values.update({
-                            spreadsheetId,
-                            range,
-                            resource: { values: values.map((r) => inputValues.includes(r[0]) ? [r[0], r[1], r[2], r[3], r[4], scanner_email] : r) },
-                            valueInputOption: "USER_ENTERED",
-                        });
+                            const { data: { values } } = await sheets.spreadsheets.values.get({ spreadsheetId, range });
+                            await sheets.spreadsheets.values.update({
+                                spreadsheetId,
+                                range,
+                                resource: { values: values.map((r) => inputValues.includes(r[0]) ? [r[0], r[1], r[2], r[3], r[4], scanner_email] : r) },
+                                valueInputOption: "USER_ENTERED",
+                            });
+                        }
 
                         res.status(201).json({
                             message: 'OK',
@@ -117,14 +119,15 @@ app.post('/checksheet', async (req, res) => {
 app.post('/updatestatus', async (req, res) => { 
   for (let i = 0; i < req.body.data.length; i++) {
     let user_id = req.body.data[i].ID
+    let user_status = req.body.data[i].STATUS
 
-    const inputValues = [user_id];
+    const inputValues = [user_id, user_status];
 
     const { data: { values } } = await sheets.spreadsheets.values.get({ spreadsheetId, range });
     await sheets.spreadsheets.values.update({
       spreadsheetId,
       range,
-      resource: { values: values.map((r) => inputValues.includes(r[0]) ? [r[0], r[1], r[2], r[3], "You die"] : r) },
+      resource: { values: values.map((r) => inputValues.includes(r[0]) ? [r[0], r[1], r[2], r[3], user_status] : r) },
       valueInputOption: "USER_ENTERED",
     });
   }
