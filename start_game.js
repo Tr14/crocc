@@ -120,9 +120,7 @@ app.post('/updatestatus', async (req, res) => {
   for (let i = 0; i < req.body.data.length; i++) {
     let user_id = req.body.data[i].ID
     let user_status = req.body.data[i].STATUS
-      let user_desc = req.body.data[i].DESC 
-      
-      console.log(user_desc)
+    let user_desc = req.body.data[i].DESC
 
     const inputValues = [user_id, user_status, user_desc];
 
