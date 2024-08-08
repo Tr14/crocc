@@ -4,17 +4,74 @@
 
 <head>
     <style>
-        .button {
-            background-color: #04AA6D;
-            border: none;
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            border: 1px solid #ccc;
+            position: relative;
+            overflow: hidden;
+            background-color: #93c3ac;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        .img0 {
+            max-width: 80%;
+            max-height: 100%;
+            object-fit: contain;
+            padding-top: 10%;
+        }
+
+        .text-overlay {
+            position: absolute;
+            top: 73.5%;
+            left: 10%;
+            right: 10%;
             color: white;
-            padding: 15px 32px;
+            padding: 10px;
             text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            margin: 4px 2px;
-            cursor: pointer;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .image-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .img1 {
+            height: auto;
+            max-width: 90%;
+            display: block;
+        }
+
+        .img2 {
+            height: auto;
+            max-width: 100%;
+            display: block;
+        }
+
+        .fixed-height {
+            height: 50px;
+            overflow: hidden;
+            width: 100%;
+            padding-top: 10%;
+            font-size: 20px;
+            margin-top: 5%;
+        }
+
+        .fixed-height p {
+            margin: 0;
         }
     </style>
 
@@ -24,14 +81,23 @@
 
 <body>
     <div class="container">
-        <h2 id="action">Chọn hành động đối với mục tiêu</h2>
+        <h2 style="text-align:center; font-size: 25px;" id="topText"></h2>
+        <img class="img0" src="./images/img_roll_casau.png">
+        <img class="img0" src="./images/3.png" id="avatar">
+        <img class="img0" src="./images/quote.png" id="quoteImage">
+        <div class="text-overlay" style="color: #04AA6D;" id="quoteText">Suy nghĩ kỹ - hoặc đừng suy nghĩ</div>
 
-        <p>Vai trò của người bị quét: <span id="owner_role" style="font-weight: bold;"></span></p>
-
-        <button class="button" id="button-action-1" onclick="btnAction()">Triệt thôi</button>
-        <button class="button" id="button-action-2" onclick="btnAction2()">Thả</button>
-
-        <p id="message" style="color: green; display: none;"></p>
+        <div class="image-container" style="margin-bottom: 10%;">
+            <button class="button" id="button-action-1" onclick="btnAction()"
+                style="background: transparent; border: transparent; padding-left: 10px;"><img class="img1"
+                    src="./images/btn_trietthoi.png" alt="First Image"></button>
+            <button class="button" id="button-action-2" onclick="btnAction2()"
+                style="background: transparent; border: transparent; padding-right: 10px;"><img class="img2"
+                    src="./images/btn_tha.png" alt="Second Image"></button>
+        </div>
+    </div>
+    <div class="fixed-height" id="fixed-height">
+        <p id="message" style="display: block; text-align: center;"></p>
     </div>
 </body>
 

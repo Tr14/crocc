@@ -46,12 +46,8 @@ window.onload = function () {
         document.getElementById('action').innerHTML = "Chiến thắng nhờ may mắn, thua là tại bạn!"
         document.getElementById('owner_role').innerHTML = owner_role;
     }
-    // Dân quét trúng cá sấu
-    if (owner_role === "Sấu Ham Ăn" && scanner_role === "Dân Lương Thiện") {
-        document.getElementById('action').innerHTML = "Cái kết cho những kẻ thích tò mò là đây, bạn đã dẹo"
-        document.getElementById('owner_role').innerHTML = owner_role
-        document.getElementById('button-action-1').style.display = "none"
-        document.getElementById('button-action-2').style.display = "none"
+    // Dân quét trúng cá sấu còn sống
+    if (owner_role === "Sấu Ham Ăn" && scanner_role === "Dân Lương Thiện" && owner_status === "Còn sống") {
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
 
@@ -76,6 +72,21 @@ window.onload = function () {
             .then((response) => response.text())
             .then((result) => {})
             .catch((error) => console.error(error));
+        document.getElementById('topText').innerHTML = "Dù không thắng, thì ít nhất cũng troll!"
+        document.getElementById('avatar').src = "./images/12.png"
+        document.getElementById('quoteImage').style.display = "none"
+        document.getElementById('quoteText').style.display = "none"
+        document.getElementById('button-action-1').style.display = "none"
+        document.getElementById('button-action-2').style.display = "none"
+    }
+    // Dân quét trúng cá sấu đã chết
+    if (owner_role === "Sấu Ham Ăn" && scanner_role === "Dân Lương Thiện" && owner_status === "Đã dẹo") {
+        document.getElementById('topText').innerHTML = "Ghi công chứ không có ghi điểm"
+        document.getElementById('avatar').src = "./images/13.png"
+        document.getElementById('quoteImage').style.display = "none"
+        document.getElementById('quoteText').style.display = "none"
+        document.getElementById('button-action-1').style.display = "none"
+        document.getElementById('button-action-2').style.display = "none"
     }
     // Dân quét trúng thợ săn
     if (owner_role === "Võ Tòng Lòng Vòng Bắt Sấu" && scanner_role === "Dân Lương Thiện") {
@@ -100,7 +111,7 @@ function btnAction() {
             {
                 "ID": user_id,
                 "STATUS": "Đã dẹo",
-                "DESC": "Bị quét bởi sói"
+                "DESC": "Bị quét bởi sấu"
             }
         ]
     });
@@ -116,7 +127,8 @@ function btnAction() {
         .then((response) => response.text())
         .then((result) => {
             document.getElementById('message').innerHTML = "Triệt tiêu đối tượng thành công"
-            document.getElementById('message').style.color = "green"
+            document.getElementById('message').style.color = "#ffffff"
+            document.getElementById('fixed-height').style.backgroundColor = "rgba(0, 128, 0, 0.5)"
             document.getElementById('message').style.display = "block"
         })
         .catch((error) => console.error(error));
@@ -147,7 +159,8 @@ function btnAction2() {
         .then((result) => {
             document.getElementById('message').innerHTML = "Đã thả đối tượng"
             document.getElementById('message').style.display = "block"
-            document.getElementById('message').style.color = "red"
+            document.getElementById('message').style.color = "#ffffff"
+            document.getElementById('fixed-height').style.backgroundColor = "rgba(255, 0, 0, 0.5)"
         })
         .catch((error) => console.error(error));
 }

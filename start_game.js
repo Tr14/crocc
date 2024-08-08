@@ -128,7 +128,7 @@ app.post('/updatestatus', async (req, res) => {
     await sheets.spreadsheets.values.update({
       spreadsheetId,
       range,
-      resource: { values: values.map((r) => inputValues.includes(r[0]) ? [r[0], r[1], r[2], r[3], user_status, r[5], user_desc] : r) },
+      resource: { values: values.map((r) => inputValues.includes(r[0]) ? [r[0], r[1], r[2], r[3], user_status, r[5], r[6], user_desc] : r) },
       valueInputOption: "USER_ENTERED",
     });
   }

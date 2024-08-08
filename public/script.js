@@ -2,8 +2,9 @@ let button = document.getElementById('btnSubmit');
 
 button.addEventListener('click', function () {
     if (document.location.toString() === "https://dev.akadigital.net/") {
-        document.getElementById('errorMessage').innerHTML = "Phá vừa thôi, rảnh thì ra quét QR đi kìa"
-        document.getElementById('errorMessage').style.display = "block"
+        document.getElementById('imageContainer').style.display = "block"
+        document.getElementById('imageInt').style.opacity = 1
+        document.getElementById('imageInt').style.transition = "opacity 1s ease-in-out"
     } else {
         user_id = new URL(document.location.toString()).searchParams.get('id');
         scanner_email = document.getElementById('email').value + document.getElementById('token').value;
@@ -20,8 +21,9 @@ button.addEventListener('click', function () {
             if (isValuePresent) {
                 postData()
             } else {
-                document.getElementById('errorMessage').innerHTML = "Hệ thống không có lỗi. Tại bạn cả thôi!"
-                document.getElementById('errorMessage').style.display = "block"
+                document.getElementById('imageContainer').style.display = "block"
+                document.getElementById('imageInt').style.opacity = 1
+                document.getElementById('imageInt').style.transition = "opacity 1s ease-in-out"
             }
         })
         .catch((error) => console.error(error));

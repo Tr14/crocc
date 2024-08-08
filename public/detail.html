@@ -1,29 +1,61 @@
 <!DOCTYPE html>
 <html>
 <title>Team Building Game</title>
-<style>
-    div {
-        border-radius: 5px;
-        background-color: #f2f2f2;
-        padding: 20px;
-    }
-</style>
 
-<link rel="stylesheet" href="styles/css.css" type="text/css" media="screen" />
-<script type="text/javascript" src="detail_script.js" language="javascript"></script>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+            max-width: 300px;
+            margin: auto;
+            text-align: center;
+            font-family: arial;
+        }
+
+        .title {
+            color: grey;
+            font-size: 18px;
+        }
+
+        button {
+            border: none;
+            outline: 0;
+            display: inline-block;
+            padding: 8px;
+            color: white;
+            background-color: #04AA6D;
+            text-align: center;
+            cursor: pointer;
+            width: 100%;
+            font-size: 18px;
+        }
+
+        a {
+            text-decoration: none;
+            font-size: 22px;
+            color: black;
+        }
+
+        button:hover,
+        a:hover {
+            opacity: 0.7;
+        }
+    </style>
+</head>
 
 <body>
 
-    <h3 id="details">Thông tin chi tiết của người chơi</h3>
+    <h2 style="text-align:center" id="topText"></h2>
 
-    <div>
-        <p>Tên người chơi: <span id="username" style="font-weight: bold;"></span></p>
-
-        <p>Vai trò: <span id="role" style="font-weight: bold;"></span></p>
-
-        <p>Trạng thái: <span id="status" style="font-weight: bold; color: green"></span></p>
+    <div class="card">
+        <img src="" alt="John" style="width:100%" id="imageSrc">
+        <h1>Tên: <span id="username"></span></h1>
+        <p class="title">Vai: <span id="role"></span></p>
+        <p>Lava Digital Group</p>
+        <button id="btnStatus">Trạng thái: <span id="status"></span></button>
     </div>
-
+    <script type="text/javascript" src="detail_script.js" language="javascript"></script>
 </body>
 
 </html>
