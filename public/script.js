@@ -6,8 +6,12 @@ button.addEventListener('click', function () {
         document.getElementById('imageInt').style.opacity = 1
         document.getElementById('imageInt').style.transition = "opacity 1s ease-in-out"
     } else {
-        user_id = new URL(document.location.toString()).searchParams.get('id');
-        scanner_email = document.getElementById('email').value + document.getElementById('token').value;
+        let user_id = new URL(document.location.toString()).searchParams.get('id');
+        let mobile = document.getElementById('mobile').value
+        if (mobile.startsWith('0')) {
+            mobile = '84' + mobile.slice(1)
+        }
+        let scanner_mobile = mobile + document.getElementById('token').value;
         
         const getOptions = {
             method: "GET",
@@ -17,7 +21,7 @@ button.addEventListener('click', function () {
         fetch("https://dev.akadigital.net/getuser", getOptions)
         .then((response) => response.json())
         .then((result) => {
-            const isValuePresent = result.received.some(item => item.owner_email === scanner_email);
+            const isValuePresent = result.received.some(item => item.owner_mobile === scanner_mobile);
             if (isValuePresent) {
                 postData()
             } else {
@@ -36,7 +40,7 @@ button.addEventListener('click', function () {
                 "data": [
                     {
                         "ID": user_id,
-                        "EMAIL_ADDRESS": scanner_email
+                        "SCANNER_MOBILE": scanner_mobile
                     }
                 ]
             });
@@ -52,21 +56,21 @@ button.addEventListener('click', function () {
                 .then((response) => response.json())
                 .then((result_post) => {
                     if (result_post.message === 'FAIL_0' && result_post.list === "filteredArray_dif") {
-                        //console.log(result)
+                        console.log("A")
                         document.getElementById('errorMessage').innerHTML = "Vui lòng không để trống thông tin"
                         document.getElementById('errorMessage').style.display = "block"
                     }
                     else if (result_post.message === 'FAIL_1' && result_post.list === "filteredArray_dif") {
-                        //console.log(result)
-                        document.getElementById('errorMessage').innerHTML = "Vui lòng nhập đúng định dạng email"
+                         console.log("B")
+                        document.getElementById('errorMessage').innerHTML = "Vui lòng nhập đúng định dạng mobile"
                         document.getElementById('errorMessage').style.display = "block"
                     }
                     else if (result_post.message === 'OK' && result_post.list === "filteredArray_same") {
-                        //console.log(result_post)
+                         console.log("C")
                         window.location.href = '/detail?id=' + encodeURIComponent(result_post.received[0].user_id) + "&username=" + encodeURIComponent(result_post.received[0].username) + "&role=" + encodeURIComponent(result_post.received[0].role) + "&status=" + encodeURIComponent(result_post.received[0].status); // Redirect to the next page
                     }
                     else if (result_post.message === 'OK' && result_post.list === "filteredArray_dif") {
-                        //console.log(result_post)
+                         console.log("D")
                         window.location.href = '/play?id=' + encodeURIComponent(result_post.received[0].user_id) + "&owner_role=" + encodeURIComponent(result_post.received[0].role) + "&owner_status=" + encodeURIComponent(result_post.received[0].status) + "&scanner_id=" + encodeURIComponent(result_post.received[0].scanner_id) + "&scanner_role=" + encodeURIComponent(result_post.received[0].scanner_role);
                     } else {
                         console.log(result_post)

@@ -42,38 +42,37 @@ app.post('/checksheet', async (req, res) => {
 
     for (let i = 0; i < req.body.data.length; i++) {
         let user_id = req.body.data[i].ID
-        let scanner_email = req.body.data[i].EMAIL_ADDRESS
+        let scanner_mobile = req.body.data[i].SCANNER_MOBILE
 
-        ////// Same Email
+        ////// Same mobile
         // add object name for each data
         const updatedRows_same = rows.map(row => ({
             user_id: row[0],
-            owner_email: row[1],
+            owner_mobile: row[1],
             username: row[2],
             role: row[3],
             status: row[4]
         }));
 
         // filter data
-        let filteredArray_same = updatedRows_same.filter(obj => obj.user_id === user_id && obj.owner_email === scanner_email)
+        let filteredArray_same = updatedRows_same.filter(obj => obj.user_id === user_id && obj.owner_mobile === scanner_mobile)
         
         // add object name for each data
         const updatedRows = rows.map(row => ({
             user_id: row[0],
-            owner_email: row[1],
+            owner_mobile: row[1],
             username: row[2],
             role: row[3],
             status: row[4],
-            scanner_email: scanner_email
+            scanner_mobile: scanner_mobile
         }));
 
         // filter data
-        let filteredArray_dif = updatedRows.filter(obj => obj.user_id === user_id && obj.owner_email != scanner_email)
-
+      let filteredArray_dif = updatedRows.filter(obj => obj.user_id === user_id && obj.owner_mobile != scanner_mobile)
         if (filteredArray_dif.length > 0) {
             if (rows.length) {
                 for (let i = 0; i < rows.length; i++) {
-                    if (rows[i][1] === scanner_email) {
+                    if (rows[i][1] === scanner_mobile) {
                         let scanner_id = rows[i][0]
                         let scanner_role = rows[i][3]
                         filteredArray_dif = filteredArray_dif.map(obj => {
@@ -85,13 +84,13 @@ app.post('/checksheet', async (req, res) => {
                         });
 
                         if (filteredArray_dif[0].status != "Đã dẹo") {
-                            const inputValues = [user_id, scanner_email];
+                            const inputValues = [user_id, scanner_mobile];
 
                             const { data: { values } } = await sheets.spreadsheets.values.get({ spreadsheetId, range });
                             await sheets.spreadsheets.values.update({
                                 spreadsheetId,
                                 range,
-                                resource: { values: values.map((r) => inputValues.includes(r[0]) ? [r[0], r[1], r[2], r[3], r[4], scanner_email] : r) },
+                                resource: { values: values.map((r) => inputValues.includes(r[0]) ? [r[0], r[1], r[2], r[3], r[4], scanner_mobile] : r) },
                                 valueInputOption: "USER_ENTERED",
                             });
                         }
@@ -120,6 +119,8 @@ app.post('/updatestatus', async (req, res) => {
   for (let i = 0; i < req.body.data.length; i++) {
     let user_id = req.body.data[i].ID
     let user_status = req.body.data[i].STATUS
+    let scanner_mobile = req.body.data[i].SCANNER_MOBILE
+    let coop_mobile = req.body.data[i].COOP_MOBILE
     let user_desc = req.body.data[i].DESC
 
     const inputValues = [user_id, user_status, user_desc];
@@ -128,7 +129,7 @@ app.post('/updatestatus', async (req, res) => {
     await sheets.spreadsheets.values.update({
       spreadsheetId,
       range,
-      resource: { values: values.map((r) => inputValues.includes(r[0]) ? [r[0], r[1], r[2], r[3], user_status, r[5], r[6], user_desc] : r) },
+      resource: { values: values.map((r) => inputValues.includes(r[0]) ? [r[0], r[1], r[2], r[3], user_status, scanner_mobile, coop_mobile, user_desc] : r) },
       valueInputOption: "USER_ENTERED",
     });
   }
@@ -146,16 +147,39 @@ app.get('/getuser', async (req, res) => {
     const rows = response.data.values;
 
     const updatedRows = rows.map(row => ({
-        user_id: row[0],
-        owner_email: row[1],
-        username: row[2],
-        role: row[3],
-        status: row[4]
+      user_id: row[0],
+      owner_mobile: row[1],
+      username: row[2],
+      role: row[3],
+      status: row[4]
     }));
 
     res.status(201).json({
         message: 'OK',
         received: updatedRows
+    });
+})
+
+app.get('/getcrocc', async (req, res) => {
+    const response = await sheets.spreadsheets.values.get({
+        spreadsheetId,
+        range,
+    });
+    const rows = response.data.values;
+
+    const updatedRows = rows.map(row => ({
+        user_id: row[0],
+        owner_mobile: row[1],
+        username: row[2],
+        role: row[3],
+        status: row[4]
+    }));
+  
+    let filteredArray = updatedRows.filter(obj => obj.role === "Sấu Ham Ăn")
+
+    res.status(201).json({
+        message: 'OK',
+        received: filteredArray
     });
 })
 
