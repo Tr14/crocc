@@ -139,7 +139,7 @@ window.onload = function () {
             fetch("https://dev.akadigital.net/getcrocc", getCrocc)
             .then((response) => response.json())
             .then((result) => {
-                const getScannerMobile = result.received.filter(obj => obj.user_id === scanner_id);
+                const getScannerMobile = result.received.filter(obj => obj.user_id === scanner_id && obj.status != "Đã dẹo");
                 const isValuePresent = result.received.some(item => item.owner_mobile === coop_mobile && item.role === "Sấu Ham Ăn" && item.user_id != scanner_id);
                 if (isValuePresent) {
                     postData()
