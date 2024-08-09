@@ -38,7 +38,7 @@ app.post('/checkdevice', async (req, res) => {
     spreadsheetId,
     range: "serverlog",
     valueInputOption: "USER_ENTERED",
-    requestBody: { majorDimension: "ROWS", values: [[req.body.ip_address, req.body.deviceInfo.type, req.body.deviceInfo.model, req.body.deviceInfo.osVersion]] },
+    requestBody: { majorDimension: "ROWS", values: [[req.body.ip_address, req.body.deviceInfo.type, req.body.deviceInfo.model, req.body.deviceInfo.osVersion, req.body.message_log]] },
   });
 })
 
