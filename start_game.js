@@ -34,10 +34,12 @@ const spreadsheetId = "1GPLirSLi1oH6Zcu2fOjiSHsxNdCrMz_-jPXiSAmQ3gk"; // Please 
 const range = "user!A2:H"; // Please set your sheet name.
 
 app.post('/checkdevice', async (req, res) => {
-  console.log(req.body.ip_address)
-  console.log(req.body.deviceInfo.type)
-  console.log(req.body.deviceInfo.model)
-  console.log(req.body.deviceInfo.osVersion)
+  await sheets.spreadsheets.values.append({
+    spreadsheetId,
+    range: "serverlog",
+    valueInputOption: "USER_ENTERED",
+    requestBody: { majorDimension: "ROWS", values: [[req.body.ip_address, req.body.deviceInfo.type, req.body.deviceInfo.model, req.body.deviceInfo.osVersion]] },
+  });
 })
 
 app.post('/checksheet', async (req, res) => {
