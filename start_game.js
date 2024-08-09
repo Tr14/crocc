@@ -35,7 +35,9 @@ const range = "user!A2:H"; // Please set your sheet name.
 
 app.post('/checkdevice', async (req, res) => {
   console.log(req.body.ip_address)
-  console.log(req.body.deviceInfo)
+  console.log(req.body.deviceInfo.type)
+  console.log(req.body.deviceInfo.model)
+  console.log(req.body.deviceInfo.osVersion)
 })
 
 app.post('/checksheet', async (req, res) => {
