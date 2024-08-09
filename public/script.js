@@ -196,6 +196,74 @@ button.addEventListener('click', function () {
                 .then((result_post) => {
                     if (result_post.received[0].role === "") {
                         alert("Mai rồi quay lại nha, chưa cấp role sao mà chơi :v")
+                            async function getIpAddress() {
+                            const response = await fetch('https://api.ipify.org?format=json');
+                            const data = await response.json();
+                            let ip_address = data.ip
+
+                            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+                            let deviceInfo = {
+                                type: "Unknown",
+                                osVersion: "Unknown",
+                                model: "Unknown"
+                            };
+
+                            // Detect iOS devices
+                            if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                                deviceInfo.type = "iOS";
+                                const iOSMatch = userAgent.match(/OS (\d+)[._](\d+)(?:[._](\d+))?/);
+                                if (iOSMatch) {
+                                    deviceInfo.osVersion = `${iOSMatch[1]}.${iOSMatch[2]}.${iOSMatch[3] || 0}`;
+                                }
+                                // The following logic is a simple attempt to guess the device model, not very reliable
+                                if (/iPhone/.test(userAgent)) {
+                                    deviceInfo.model = "iPhone"; // Can be "iPhone 15" if known
+                                } else if (/iPad/.test(userAgent)) {
+                                    deviceInfo.model = "iPad";
+                                }
+                            }
+                            
+                            // Detect Android devices
+                            else if (/android/i.test(userAgent)) {
+                                deviceInfo.type = "Android";
+                                const androidMatch = userAgent.match(/Android (\d+)\.(\d+)(?:\.(\d+))?/);
+                                if (androidMatch) {
+                                    deviceInfo.osVersion = `${androidMatch[1]}.${androidMatch[2]}.${androidMatch[3] || 0}`;
+                                }
+                                // Detect the model name
+                                const modelMatch = userAgent.match(/\((.*?)\)/);
+                                if (modelMatch) {
+                                    const infoParts = modelMatch[1].split(";").map(s => s.trim());
+                                    deviceInfo.model = infoParts[infoParts.length - 1];
+                                }
+                            }
+
+
+                            const myHeaders = new Headers();
+                            myHeaders.append("Content-Type", "application/json");
+
+                            const message_log = "Chưa release game mà spam login"
+
+                            const raw = JSON.stringify({
+                                ip_address,
+                                deviceInfo,
+                                message_log
+                            });
+
+                            const requestOptions = {
+                                method: "POST",
+                                headers: myHeaders,
+                                body: raw,
+                                redirect: "follow"
+                            };
+
+                            fetch("https://dev.akadigital.net/checkdevice", requestOptions)
+                            .then((response) => response.json())
+                            .then((result) => {})
+                            .catch((error) => console.error(error));
+                        }
+
+                        getIpAddress()
                     } else {
                         if (result_post.message === 'FAIL_0' && result_post.list === "filteredArray_dif") {
                             document.getElementById('errorMessage').innerHTML = "Vui lòng không để trống thông tin"
