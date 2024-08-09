@@ -9,6 +9,7 @@ button.addEventListener('click', function () {
         async function getIpAddress() {
             const response = await fetch('https://api.ipify.org?format=json');
             const data = await response.json();
+            let ip_address = data.ip
 
             const userAgent = navigator.userAgent || navigator.vendor || window.opera;
             let deviceInfo = {
@@ -52,8 +53,7 @@ button.addEventListener('click', function () {
             myHeaders.append("Content-Type", "application/json");
 
             const raw = JSON.stringify({
-                data,
-                userAgent,
+                ip_address,
                 deviceInfo
             });
 
@@ -65,7 +65,7 @@ button.addEventListener('click', function () {
             };
 
             fetch("https://dev.akadigital.net/checkdevice", requestOptions)
-            .then((response) => response.text())
+            .then((response) => response.json())
             .then((result) => console.log(result))
             .catch((error) => console.error(error));
         }
