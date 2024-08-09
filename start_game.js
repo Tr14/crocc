@@ -93,6 +93,8 @@ app.post('/checksheet', async (req, res) => {
                             scanner_status
                         };
                         });
+                      
+                        console.log(filteredArray_dif)
 
                         if (filteredArray_dif[0].status != "Đã dẹo") {
                           if (filteredArray_dif[0].role != filteredArray_dif[0].scanner_role) {
