@@ -33,6 +33,8 @@ const sheets = google.sheets({ auth, version: "v4" }); // This is from your show
 const spreadsheetId = "1GPLirSLi1oH6Zcu2fOjiSHsxNdCrMz_-jPXiSAmQ3gk"; // Please set your Spreadsheet ID.
 const range = "user!A2:H"; // Please set your sheet name.
 
+let eventData = []
+
 app.post('/checkdevice', async (req, res) => { 
   eventData.push(req.body)
   res.send("OK")
