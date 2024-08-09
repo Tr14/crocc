@@ -183,6 +183,29 @@ app.get('/getcrocc', async (req, res) => {
     });
 })
 
+app.get('/gethunter', async (req, res) => {
+    const response = await sheets.spreadsheets.values.get({
+        spreadsheetId,
+        range,
+    });
+    const rows = response.data.values;
+
+    const updatedRows = rows.map(row => ({
+        user_id: row[0],
+        owner_mobile: row[1],
+        username: row[2],
+        role: row[3],
+        status: row[4]
+    }));
+  
+    let filteredArray = updatedRows.filter(obj => obj.role === "Võ Tòng Lòng Vòng Bắt Sấu")
+
+    res.status(201).json({
+        message: 'OK',
+        received: filteredArray
+    });
+})
+
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', '/index.html'));
 });

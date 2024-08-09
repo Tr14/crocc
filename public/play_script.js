@@ -26,16 +26,17 @@ window.onload = function () {
     let button1Clicked = false
     let button2Clicked = false
 
-    // Cá sấu quét trúng cá sấu
+    // Cá sấu quét trúng cá sấu ============================================================================================> Xong
     if (owner_role === "Sấu Ham Ăn" && scanner_role === "Sấu Ham Ăn") {
-        document.getElementById('action').innerHTML = "Quét nhầm đồng đội rồi, di chuyển chỗ khác thôi"
-        document.getElementById('owner_role').innerHTML = owner_role;
+        document.getElementById('avatar').src = "./images/16.png"
         document.getElementById('button-action-1').style.display = "none"
         document.getElementById('button-action-2').style.display = "none"
+        document.getElementById('quoteText').innerHTML = "Cứ bình tĩnh, ai cũng rối mà!"
+        document.getElementById('quoteText').style.top = "77.5%"
+        document.getElementById('quoteText').style.color = "#04AA6D"
     }
-    // Cá sấu quét trúng thợ săn còn sống
+    // Cá sấu quét trúng thợ săn còn sống ==================================================================================> Xong
     if (owner_role === "Võ Tòng Lòng Vòng Bắt Sấu" && scanner_role === "Sấu Ham Ăn" && owner_status === "Còn sống") {
-        document.getElementById('topText').style.display = "none"
         document.getElementById('imageSrc0').style.paddingTop = 0
         document.getElementById('avatar').src = "./images/11.png"
         document.getElementById('quoteText').innerHTML = "Thắng không quan trọng, quan trọng là bạn phải thắng."
@@ -67,7 +68,7 @@ window.onload = function () {
                 fetch("https://dev.akadigital.net/updatestatus", requestOptions)
                 .then((response) => response.text())
                 .then((result) => {
-                    document.getElementById('quoteText').innerHTML = "Đi 1 mình mà dám quét thợ săn hả, 1 vé chim cook"
+                    document.getElementById('quoteText').innerHTML = "Suy nghĩ quá lâu, cho 1 vé chim cook nhé"
                     document.getElementById('quoteText').style.color = "red"
                     document.getElementById('button-action-1').style.display = "none"
                     document.getElementById('button-action-2').style.display = "none"
@@ -186,41 +187,214 @@ window.onload = function () {
         btnSubmit.addEventListener('click', submitPopup);
         overlay.addEventListener('click', submitPopup);
     }
-    // Cá sấu quét trúng thợ săn đã chết
+    // Cá sấu quét trúng thợ săn đã chết ===================================================================================> Xong
     if (owner_role === "Võ Tòng Lòng Vòng Bắt Sấu" && scanner_role === "Sấu Ham Ăn" && owner_status === "Đã dẹo") {
-        document.getElementById('topText').innerHTML = "Ghi công chứ không có ghi điểm"
         document.getElementById('avatar').src = "./images/12.png"
-        document.getElementById('quoteImage').style.display = "none"
-        document.getElementById('quoteText').style.display = "none"
         document.getElementById('button-action-1').style.display = "none"
         document.getElementById('button-action-2').style.display = "none"
+        document.getElementById('quoteText').innerHTML = "Ghi công chứ không có ghi điểm"
+        document.getElementById('quoteText').style.top = "76.5%"
+        document.getElementById('quoteText').style.color = "#04AA6D"
     }
-    // Cá sấu quét trúng dân
-    if (owner_role === "Dân Lương Thiện" && scanner_role === "Sấu Ham Ăn") {
-        document.getElementById('action').innerHTML = "Suy nghĩ kỹ – hoặc đừng suy nghĩ!"
-        document.getElementById('owner_role').innerHTML = owner_role;
-        if (owner_status === "Đã dẹo") {
-            document.getElementById('action').innerHTML = "Nhân vật này đã dẹo"
-            document.getElementById('button-action-1').style.display = "none"
-            document.getElementById('button-action-2').style.display = "none"
-        }
+    // Cá sấu quét trúng dân còn sống ======================================================================================> Xong
+    if (owner_role === "Dân Lương Thiện" && scanner_role === "Sấu Ham Ăn" && owner_status === "Còn sống") {
+        document.getElementById('avatar').src = "./images/9.png"
+        document.getElementById('imageSrc1').style.maxWidth = "40%"
+        document.getElementById('imageSrc2').style.top = "89%"
+        document.getElementById('imageSrc2').style.maxWidth = "47%"
+        document.getElementById('imageSrc2').style.left = "50%"
+        document.getElementById('quoteText').innerHTML = "Thắng không quan trọng, quan trọng là bạn phải thắng."
+        document.getElementById('quoteText').style.top = "76.5%";
+
+        button1.addEventListener('click', function() {
+            const myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+
+            const raw = JSON.stringify({
+                "data": [
+                    {
+                        "ID": user_id,
+                        "STATUS": "Đã dẹo"
+                    }
+                ]
+            });
+
+            const requestOptions = {
+                method: "POST",
+                headers: myHeaders,
+                body: raw,
+                redirect: "follow"
+            };
+
+            fetch("https://dev.akadigital.net/updatestatus", requestOptions)
+            .then((response) => response.text())
+            .then((result) => {
+                document.getElementById('quoteText').innerHTML = "Tiêu diệt mục tiêu thành công"
+                document.getElementById('quoteText').style.color = "#04AA6D"
+            })
+            .catch((error) => console.error(error));
+        })
+
+        button2.addEventListener('click', function() {
+            const getCrocc = {
+                method: "GET",
+                redirect: "follow"
+            };
+
+            fetch("https://dev.akadigital.net/getcrocc", getCrocc)
+            .then((response) => response.json())
+            .then((result) => {
+                const getScannerMobile = result.received.filter(obj => obj.user_id === scanner_id);
+                    
+                const myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
+
+                const raw = JSON.stringify({
+                    "data": [
+                        {
+                            "ID": user_id,
+                            "STATUS": "Đã thả",
+                            "SCANNER_MOBILE": getScannerMobile[0].owner_mobile,
+                        }
+                    ]
+                });
+
+                const requestOptions = {
+                    method: "POST",
+                    headers: myHeaders,
+                    body: raw,
+                    redirect: "follow"
+                };
+
+                fetch("https://dev.akadigital.net/updatestatus", requestOptions)
+                .then((response) => response.text())
+                .then((result) => {
+                    document.getElementById('quoteText').innerHTML = "Lựa chọn juan chưa? Không có quay xe nhé"
+                    document.getElementById('quoteText').style.color = "red"
+                })
+                .catch((error) => console.error(error));
+            })
+            .catch((error) => console.error(error));
+        })
     }
-    // Thợ săn quét trúng cá sấu
-    if (owner_role === "Sấu Ham Ăn" && scanner_role === "Võ Tòng Lòng Vòng Bắt Sấu") {
-        document.getElementById('action').innerHTML = "Chiến thắng nhờ may mắn, thua là tại bạn!"
-        document.getElementById('owner_role').innerHTML = owner_role;
+    // Cá sấu quét trúng dân đã chết =======================================================================================> Xong
+    if (owner_role === "Dân Lương Thiện" && scanner_role === "Sấu Ham Ăn" && owner_status === "Đã dẹo") {
+        document.getElementById('avatar').src = "./images/10.png"
+        document.getElementById('button-action-1').style.display = "none"
+        document.getElementById('button-action-2').style.display = "none"
+        document.getElementById('quoteText').innerHTML = "Ghi công chứ không có ghi điểm"
+        document.getElementById('quoteText').style.top = "76.5%"
+        document.getElementById('quoteText').style.color = "#04AA6D"
     }
-    // Thợ săn quét trúng thợ săn
+    // Thợ săn quét trúng cá sấu còn sống ==================================================================================> Xong
+    if (owner_role === "Sấu Ham Ăn" && scanner_role === "Võ Tòng Lòng Vòng Bắt Sấu" && owner_status === "Còn sống") {
+        document.getElementById('avatar').src = "./images/9.png"
+        document.getElementById('imageSrc1').style.maxWidth = "40%"
+        document.getElementById('imageSrc2').style.top = "89%"
+        document.getElementById('imageSrc2').style.maxWidth = "47%"
+        document.getElementById('imageSrc2').style.left = "50%"
+        document.getElementById('quoteText').innerHTML = "Thắng không quan trọng, quan trọng là bạn phải thắng."
+        document.getElementById('quoteText').style.top = "76.5%";
+
+        button1.addEventListener('click', function() {
+            const myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+
+            const raw = JSON.stringify({
+                "data": [
+                    {
+                        "ID": user_id,
+                        "STATUS": "Đã dẹo"
+                    }
+                ]
+            });
+
+            const requestOptions = {
+                method: "POST",
+                headers: myHeaders,
+                body: raw,
+                redirect: "follow"
+            };
+
+            fetch("https://dev.akadigital.net/updatestatus", requestOptions)
+            .then((response) => response.text())
+            .then((result) => {
+                document.getElementById('quoteText').innerHTML = "Tiêu diệt mục tiêu thành công"
+                document.getElementById('quoteText').style.color = "#04AA6D"
+            })
+            .catch((error) => console.error(error));
+        })
+
+        button2.addEventListener('click', function() {
+            const getHunter = {
+                method: "GET",
+                redirect: "follow"
+            };
+
+            fetch("https://dev.akadigital.net/gethunter", getHunter)
+            .then((response) => response.json())
+            .then((result) => {
+                const getScannerMobile = result.received.filter(obj => obj.user_id === scanner_id);
+                    
+                const myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
+
+                const raw = JSON.stringify({
+                    "data": [
+                        {
+                            "ID": user_id,
+                            "STATUS": "Đã thả",
+                            "SCANNER_MOBILE": getScannerMobile[0].owner_mobile
+                        }
+                    ]
+                });
+
+                const requestOptions = {
+                    method: "POST",
+                    headers: myHeaders,
+                    body: raw,
+                    redirect: "follow"
+                };
+
+                fetch("https://dev.akadigital.net/updatestatus", requestOptions)
+                .then((response) => response.text())
+                .then((result) => {
+                    document.getElementById('quoteText').innerHTML = "Lựa chọn juan chưa? Không có quay xe nhé"
+                    document.getElementById('quoteText').style.color = "red"
+                })
+                .catch((error) => console.error(error));
+            })
+            .catch((error) => console.error(error));
+        })
+    }
+    // Thợ săn quét trúng cá sấu đã chết ===================================================================================> Xong
+    if (owner_role === "Sấu Ham Ăn" && scanner_role === "Võ Tòng Lòng Vòng Bắt Sấu" && owner_status === "Đã dẹo") {
+        document.getElementById('avatar').src = "./images/10.png"
+        document.getElementById('button-action-1').style.display = "none"
+        document.getElementById('button-action-2').style.display = "none"
+        document.getElementById('quoteText').innerHTML = "Ghi công chứ không có ghi điểm"
+        document.getElementById('quoteText').style.top = "76.5%"
+        document.getElementById('quoteText').style.color = "#04AA6D"
+    }
+    // Thợ săn quét trúng thợ săn ==========================================================================================> Xong
     if (owner_role === "Võ Tòng Lòng Vòng Bắt Sấu" && scanner_role === "Võ Tòng Lòng Vòng Bắt Sấu") {
-        document.getElementById('action').innerHTML = "Quét nhầm đồng đội rồi, di chuyển chỗ khác thôi"
-        document.getElementById('owner_role').innerHTML = owner_role;
+        document.getElementById('avatar').src = "./images/16.png"
+        document.getElementById('button-action-1').style.display = "none"
+        document.getElementById('button-action-2').style.display = "none"
+        document.getElementById('quoteText').innerHTML = "Cứ bình tĩnh, ai cũng rối mà!"
+        document.getElementById('quoteText').style.top = "77.5%"
+        document.getElementById('quoteText').style.color = "#04AA6D"
     }
-    // Thợ săn quét trúng dân
+    // Thợ săn quét trúng dân ==============================================================================================> Xong
     if (owner_role === "Dân Lương Thiện" && scanner_role === "Võ Tòng Lòng Vòng Bắt Sấu") {
-        document.getElementById('action').innerHTML = "Chiến thắng nhờ may mắn, thua là tại bạn!"
-        document.getElementById('owner_role').innerHTML = owner_role;
+        document.getElementById('avatar').src = "./images/16.png"
+        document.getElementById('button-action-1').style.display = "none"
+        document.getElementById('button-action-2').style.display = "none"
+        document.getElementById('quoteText').innerHTML = "Cứ bình tĩnh, ai cũng rối mà!"
+        document.getElementById('quoteText').style.top = "76.5%"
+        document.getElementById('quoteText').style.color = "#04AA6D"
     }
-    // Dân quét trúng cá sấu còn sống
+    // Dân quét trúng cá sấu còn sống ======================================================================================> Xong
     if (owner_role === "Sấu Ham Ăn" && scanner_role === "Dân Lương Thiện" && owner_status === "Còn sống") {
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
@@ -246,33 +420,39 @@ window.onload = function () {
             .then((response) => response.text())
             .then((result) => {})
             .catch((error) => console.error(error));
-        document.getElementById('topText').innerHTML = "Dù không thắng, thì ít nhất cũng troll!"
-        document.getElementById('avatar').src = "./images/12.png"
-        document.getElementById('quoteImage').style.display = "none"
-        document.getElementById('quoteText').style.display = "none"
-        document.getElementById('button-action-1').style.display = "none"
-        document.getElementById('button-action-2').style.display = "none"
-    }
-    // Dân quét trúng cá sấu đã chết
-    if (owner_role === "Sấu Ham Ăn" && scanner_role === "Dân Lương Thiện" && owner_status === "Đã dẹo") {
-        document.getElementById('topText').innerHTML = "Ghi công chứ không có ghi điểm"
         document.getElementById('avatar').src = "./images/13.png"
-        document.getElementById('quoteImage').style.display = "none"
-        document.getElementById('quoteText').style.display = "none"
         document.getElementById('button-action-1').style.display = "none"
         document.getElementById('button-action-2').style.display = "none"
+        document.getElementById('quoteText').innerHTML = "Dù không thắng, thì ít nhất cũng troll!"
+        document.getElementById('quoteText').style.top = "76.5%"
+        document.getElementById('quoteText').style.color = "red"
     }
-    // Dân quét trúng thợ săn
+    // Dân quét trúng cá sấu đã chết =======================================================================================> Xong
+    if (owner_role === "Sấu Ham Ăn" && scanner_role === "Dân Lương Thiện" && owner_status === "Đã dẹo") {
+        document.getElementById('avatar').src = "./images/12.png"
+        document.getElementById('button-action-1').style.display = "none"
+        document.getElementById('button-action-2').style.display = "none"
+        document.getElementById('quoteText').innerHTML = "Ghi công chứ không có ghi điểm"
+        document.getElementById('quoteText').style.top = "77.5%"
+        document.getElementById('quoteText').style.color = "#04AA6D"
+    }
+    // Dân quét trúng thợ săn ==============================================================================================> Xong
     if (owner_role === "Võ Tòng Lòng Vòng Bắt Sấu" && scanner_role === "Dân Lương Thiện") {
-        document.getElementById('action').innerHTML = "Bí mật luôn vui hơn khi không ai biết!"
-        document.getElementById('owner_role').innerHTML = "???"
+        document.getElementById('avatar').src = "./images/15.png"
         document.getElementById('button-action-1').style.display = "none"
+        document.getElementById('button-action-2').style.display = "none"
+        document.getElementById('quoteText').innerHTML = "Cứ bình tĩnh, ai cũng rối mà!"
+        document.getElementById('quoteText').style.top = "77.5%"
+        document.getElementById('quoteText').style.color = "#04AA6D"
     }
-    // Dân quét trúng dân
+    // Dân quét trúng dân ==================================================================================================> Xong
     if (owner_role === "Dân Lương Thiện" && scanner_role === "Dân Lương Thiện") {
-        document.getElementById('action').innerHTML = "Bí mật luôn vui hơn khi không ai biết!"
-        document.getElementById('owner_role').innerHTML = "???"
+        document.getElementById('avatar').src = "./images/14.png"
         document.getElementById('button-action-1').style.display = "none"
+        document.getElementById('button-action-2').style.display = "none"
+        document.getElementById('quoteText').innerHTML = "Đoàn kết, hay là tự lo đi!"
+        document.getElementById('quoteText').style.top = "77.5%"
+        document.getElementById('quoteText').style.color = "#04AA6D"
     }
 }
 
