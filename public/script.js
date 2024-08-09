@@ -6,7 +6,10 @@ button.addEventListener('click', function () {
         document.getElementById('imageInt').style.opacity = 1
         document.getElementById('imageInt').style.transition = "opacity 1s ease-in-out"
 
-        function getDeviceInfo() {
+        async function getIpAddress() {
+            const response = await fetch('https://api.ipify.org?format=json');
+            const data = await response.json();
+
             const userAgent = navigator.userAgent || navigator.vendor || window.opera;
             let deviceInfo = {
                 type: "Unknown",
@@ -44,10 +47,13 @@ button.addEventListener('click', function () {
                 }
             }
 
+
             const myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/json");
 
             const raw = JSON.stringify({
+                data,
+                userAgent,
                 deviceInfo
             });
 
@@ -64,7 +70,8 @@ button.addEventListener('click', function () {
             .catch((error) => console.error(error));
         }
 
-        getDeviceInfo()
+        getIpAddress()
+
     } else {
         let user_id = new URL(document.location.toString()).searchParams.get('id');
         let mobile = document.getElementById('mobile').value
