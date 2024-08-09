@@ -194,25 +194,26 @@ button.addEventListener('click', function () {
             fetch("https://dev.akadigital.net/checksheet", requestOptions)
                 .then((response) => response.json())
                 .then((result_post) => {
-                    console.log(result_post)
-                    /*
-                    if (result_post.message === 'FAIL_0' && result_post.list === "filteredArray_dif") {
-                        document.getElementById('errorMessage').innerHTML = "Vui lòng không để trống thông tin"
-                        document.getElementById('errorMessage').style.display = "block"
-                    }
-                    else if (result_post.message === 'FAIL_1' && result_post.list === "filteredArray_dif") {
-                        document.getElementById('errorMessage').innerHTML = "Vui lòng nhập đúng định dạng mobile"
-                        document.getElementById('errorMessage').style.display = "block"
-                    }
-                    else if (result_post.message === 'OK' && result_post.list === "filteredArray_same") {
-                        window.location.href = '/detail?id=' + encodeURIComponent(result_post.received[0].user_id) + "&username=" + encodeURIComponent(result_post.received[0].username) + "&role=" + encodeURIComponent(result_post.received[0].role) + "&status=" + encodeURIComponent(result_post.received[0].status); // Redirect to the next page
-                    }
-                    else if (result_post.message === 'OK' && result_post.list === "filteredArray_dif") {
-                        window.location.href = '/play?id=' + encodeURIComponent(result_post.received[0].user_id) + "&owner_role=" + encodeURIComponent(result_post.received[0].role) + "&owner_status=" + encodeURIComponent(result_post.received[0].status) + "&scanner_id=" + encodeURIComponent(result_post.received[0].scanner_id) + "&scanner_role=" + encodeURIComponent(result_post.received[0].scanner_role) + "&scanner_status=" + encodeURIComponent(result_post.received[0].scanner_status);
+                    if (result_post.received[0].role === "") {
+                        alert("Mai rồi quay lại nha")
                     } else {
-                        console.log(result_post)
+                        if (result_post.message === 'FAIL_0' && result_post.list === "filteredArray_dif") {
+                            document.getElementById('errorMessage').innerHTML = "Vui lòng không để trống thông tin"
+                            document.getElementById('errorMessage').style.display = "block"
+                        }
+                        else if (result_post.message === 'FAIL_1' && result_post.list === "filteredArray_dif") {
+                            document.getElementById('errorMessage').innerHTML = "Vui lòng nhập đúng định dạng mobile"
+                            document.getElementById('errorMessage').style.display = "block"
+                        }
+                        else if (result_post.message === 'OK' && result_post.list === "filteredArray_same") {
+                            window.location.href = '/detail?id=' + encodeURIComponent(result_post.received[0].user_id) + "&username=" + encodeURIComponent(result_post.received[0].username) + "&role=" + encodeURIComponent(result_post.received[0].role) + "&status=" + encodeURIComponent(result_post.received[0].status); // Redirect to the next page
+                        }
+                        else if (result_post.message === 'OK' && result_post.list === "filteredArray_dif") {
+                            window.location.href = '/play?id=' + encodeURIComponent(result_post.received[0].user_id) + "&owner_role=" + encodeURIComponent(result_post.received[0].role) + "&owner_status=" + encodeURIComponent(result_post.received[0].status) + "&scanner_id=" + encodeURIComponent(result_post.received[0].scanner_id) + "&scanner_role=" + encodeURIComponent(result_post.received[0].scanner_role) + "&scanner_status=" + encodeURIComponent(result_post.received[0].scanner_status);
+                        } else {
+                            console.log(result_post)
+                        }
                     }
-                    */
                 }
             ).catch((error) => console.error(error));
         }
