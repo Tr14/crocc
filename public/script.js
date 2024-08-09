@@ -195,7 +195,7 @@ button.addEventListener('click', function () {
                 .then((response) => response.json())
                 .then((result_post) => {
                     if (result_post.received[0].role === "") {
-                        alert("Mai rồi quay lại nha")
+                        alert("Mai rồi quay lại nha, chưa cấp role sao mà chơi :v")
                     } else {
                         if (result_post.message === 'FAIL_0' && result_post.list === "filteredArray_dif") {
                             document.getElementById('errorMessage').innerHTML = "Vui lòng không để trống thông tin"
