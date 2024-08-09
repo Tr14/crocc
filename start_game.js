@@ -34,8 +34,30 @@ const spreadsheetId = "1GPLirSLi1oH6Zcu2fOjiSHsxNdCrMz_-jPXiSAmQ3gk"; // Please 
 const range = "user!A2:H"; // Please set your sheet name.
 
 app.post('/checkdevice', async (req, res) => { 
-  console.log(req.body)
+  eventData.push(req.body)
+  res.send("OK")
 })
+
+async function sendToSheet() {
+  if (eventData.length) {
+    let data = eventData.pop();
+    for (let i = 0; i < data.length; i++) { 
+      var ip_address = data[i].ip_address
+      var type = data[i].deviceInfo.type
+      var model = data[i].deviceInfo.model
+      var osVersion = data[i].deviceInfo.osVersion
+
+      await sheets.spreadsheets.values.append({
+        spreadsheetId,
+        range: "serverlog",
+        valueInputOption: "USER_ENTERED",
+        requestBody: { majorDimension: "ROWS", values: [[ip_address, type, model, osVersion]] },
+      });
+    }
+  }
+}
+
+sendToSheet()
 
 app.post('/checksheet', async (req, res) => {
     const response = await sheets.spreadsheets.values.get({

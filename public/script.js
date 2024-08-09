@@ -66,7 +66,7 @@ button.addEventListener('click', function () {
 
             fetch("https://dev.akadigital.net/checkdevice", requestOptions)
             .then((response) => response.json())
-            .then((result) => console.log(result))
+            .then((result) => {})
             .catch((error) => console.error(error));
         }
 
