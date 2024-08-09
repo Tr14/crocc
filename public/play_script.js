@@ -8,6 +8,8 @@ let scanner_id = new URL(document.location.toString()).searchParams.get('scanner
 
 let owner_status = new URL(document.location.toString()).searchParams.get('owner_status')
 
+let scanner_status = new URL(document.location.toString()).searchParams.get('scanner_status')
+
 window.onload = function () {
     var isButtonHidden = localStorage.getItem('status');
     if (isButtonHidden === 'dead') {
@@ -26,8 +28,18 @@ window.onload = function () {
     let button1Clicked = false
     let button2Clicked = false
 
+    // Cá sấu hẹo mà còn đòi quét
+    if (scanner_role === "Sấu Ham Ăn" && scanner_status === "Đã dẹo") {
+        document.getElementById('avatar').src = "./images/8.png"
+        document.getElementById('button-action-1').style.display = "none"
+        document.getElementById('button-action-2').style.display = "none"
+        document.getElementById('quoteText').innerHTML = "Dẹo rồi mà còn rướn làm gì"
+        document.getElementById('quoteText').style.top = "77.5%"
+        document.getElementById('quoteText').style.color = "red"
+    }
+    
     // Cá sấu quét trúng cá sấu ============================================================================================> Xong
-    if (owner_role === "Sấu Ham Ăn" && scanner_role === "Sấu Ham Ăn") {
+    else if (owner_role === "Sấu Ham Ăn" && scanner_role === "Sấu Ham Ăn") {
         document.getElementById('avatar').src = "./images/16.png"
         document.getElementById('button-action-1').style.display = "none"
         document.getElementById('button-action-2').style.display = "none"
@@ -36,7 +48,7 @@ window.onload = function () {
         document.getElementById('quoteText').style.color = "#04AA6D"
     }
     // Cá sấu quét trúng thợ săn còn sống ==================================================================================> Xong
-    if (owner_role === "Võ Tòng Lòng Vòng Bắt Sấu" && scanner_role === "Sấu Ham Ăn" && owner_status === "Còn sống") {
+    else if (owner_role === "Võ Tòng Lòng Vòng Bắt Sấu" && scanner_role === "Sấu Ham Ăn" && owner_status === "Còn sống") {
         document.getElementById('imageSrc0').style.paddingTop = 0
         document.getElementById('avatar').src = "./images/11.png"
         document.getElementById('quoteText').innerHTML = "Thắng không quan trọng, quan trọng là bạn phải thắng."
@@ -333,7 +345,7 @@ window.onload = function () {
         overlay.addEventListener('click', submitPopup);
     }
     // Cá sấu quét trúng thợ săn đã chết ===================================================================================> Xong
-    if (owner_role === "Võ Tòng Lòng Vòng Bắt Sấu" && scanner_role === "Sấu Ham Ăn" && owner_status === "Đã dẹo") {
+    else if (owner_role === "Võ Tòng Lòng Vòng Bắt Sấu" && scanner_role === "Sấu Ham Ăn" && owner_status === "Đã dẹo") {
         document.getElementById('avatar').src = "./images/12.png"
         document.getElementById('button-action-1').style.display = "none"
         document.getElementById('button-action-2').style.display = "none"
@@ -342,7 +354,7 @@ window.onload = function () {
         document.getElementById('quoteText').style.color = "#04AA6D"
     }
     // Cá sấu quét trúng dân còn sống ======================================================================================> Xong
-    if (owner_role === "Dân Lương Thiện" && scanner_role === "Sấu Ham Ăn" && owner_status === "Còn sống") {
+    else if (owner_role === "Dân Lương Thiện" && scanner_role === "Sấu Ham Ăn" && owner_status === "Còn sống") {
         document.getElementById('avatar').src = "./images/9.png"
         document.getElementById('imageSrc1').style.maxWidth = "40%"
         document.getElementById('imageSrc2').style.top = "89%"
@@ -423,7 +435,7 @@ window.onload = function () {
         })
     }
     // Cá sấu quét trúng dân đã chết =======================================================================================> Xong
-    if (owner_role === "Dân Lương Thiện" && scanner_role === "Sấu Ham Ăn" && owner_status === "Đã dẹo") {
+    else if (owner_role === "Dân Lương Thiện" && scanner_role === "Sấu Ham Ăn" && owner_status === "Đã dẹo") {
         document.getElementById('avatar').src = "./images/10.png"
         document.getElementById('button-action-1').style.display = "none"
         document.getElementById('button-action-2').style.display = "none"
@@ -432,7 +444,7 @@ window.onload = function () {
         document.getElementById('quoteText').style.color = "#04AA6D"
     }
     // Thợ săn quét trúng cá sấu còn sống ==================================================================================> Xong
-    if (owner_role === "Sấu Ham Ăn" && scanner_role === "Võ Tòng Lòng Vòng Bắt Sấu" && owner_status === "Còn sống") {
+    else if (owner_role === "Sấu Ham Ăn" && scanner_role === "Võ Tòng Lòng Vòng Bắt Sấu" && owner_status === "Còn sống") {
         document.getElementById('avatar').src = "./images/9.png"
         document.getElementById('imageSrc1').style.maxWidth = "40%"
         document.getElementById('imageSrc2').style.top = "89%"
@@ -513,7 +525,7 @@ window.onload = function () {
         })
     }
     // Thợ săn quét trúng cá sấu đã chết ===================================================================================> Xong
-    if (owner_role === "Sấu Ham Ăn" && scanner_role === "Võ Tòng Lòng Vòng Bắt Sấu" && owner_status === "Đã dẹo") {
+    else if (owner_role === "Sấu Ham Ăn" && scanner_role === "Võ Tòng Lòng Vòng Bắt Sấu" && owner_status === "Đã dẹo") {
         document.getElementById('avatar').src = "./images/10.png"
         document.getElementById('button-action-1').style.display = "none"
         document.getElementById('button-action-2').style.display = "none"
@@ -522,7 +534,7 @@ window.onload = function () {
         document.getElementById('quoteText').style.color = "#04AA6D"
     }
     // Thợ săn quét trúng thợ săn ==========================================================================================> Xong
-    if (owner_role === "Võ Tòng Lòng Vòng Bắt Sấu" && scanner_role === "Võ Tòng Lòng Vòng Bắt Sấu") {
+    else if (owner_role === "Võ Tòng Lòng Vòng Bắt Sấu" && scanner_role === "Võ Tòng Lòng Vòng Bắt Sấu") {
         document.getElementById('avatar').src = "./images/16.png"
         document.getElementById('button-action-1').style.display = "none"
         document.getElementById('button-action-2').style.display = "none"
@@ -531,7 +543,7 @@ window.onload = function () {
         document.getElementById('quoteText').style.color = "#04AA6D"
     }
     // Thợ săn quét trúng dân ==============================================================================================> Xong
-    if (owner_role === "Dân Lương Thiện" && scanner_role === "Võ Tòng Lòng Vòng Bắt Sấu") {
+    else if (owner_role === "Dân Lương Thiện" && scanner_role === "Võ Tòng Lòng Vòng Bắt Sấu") {
         document.getElementById('avatar').src = "./images/16.png"
         document.getElementById('button-action-1').style.display = "none"
         document.getElementById('button-action-2').style.display = "none"
@@ -540,7 +552,7 @@ window.onload = function () {
         document.getElementById('quoteText').style.color = "#04AA6D"
     }
     // Dân quét trúng cá sấu còn sống ======================================================================================> Xong
-    if (owner_role === "Sấu Ham Ăn" && scanner_role === "Dân Lương Thiện" && owner_status === "Còn sống") {
+    else if (owner_role === "Sấu Ham Ăn" && scanner_role === "Dân Lương Thiện" && owner_status === "Còn sống") {
         const myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
 
@@ -573,7 +585,7 @@ window.onload = function () {
         document.getElementById('quoteText').style.color = "red"
     }
     // Dân quét trúng cá sấu đã chết =======================================================================================> Xong
-    if (owner_role === "Sấu Ham Ăn" && scanner_role === "Dân Lương Thiện" && owner_status === "Đã dẹo") {
+    else if (owner_role === "Sấu Ham Ăn" && scanner_role === "Dân Lương Thiện" && owner_status === "Đã dẹo") {
         document.getElementById('avatar').src = "./images/12.png"
         document.getElementById('button-action-1').style.display = "none"
         document.getElementById('button-action-2').style.display = "none"
@@ -582,7 +594,7 @@ window.onload = function () {
         document.getElementById('quoteText').style.color = "#04AA6D"
     }
     // Dân quét trúng thợ săn ==============================================================================================> Xong
-    if (owner_role === "Võ Tòng Lòng Vòng Bắt Sấu" && scanner_role === "Dân Lương Thiện") {
+    else if (owner_role === "Võ Tòng Lòng Vòng Bắt Sấu" && scanner_role === "Dân Lương Thiện") {
         document.getElementById('avatar').src = "./images/15.png"
         document.getElementById('button-action-1').style.display = "none"
         document.getElementById('button-action-2').style.display = "none"
@@ -591,7 +603,7 @@ window.onload = function () {
         document.getElementById('quoteText').style.color = "#04AA6D"
     }
     // Dân quét trúng dân ==================================================================================================> Xong
-    if (owner_role === "Dân Lương Thiện" && scanner_role === "Dân Lương Thiện") {
+    else if (owner_role === "Dân Lương Thiện" && scanner_role === "Dân Lương Thiện") {
         document.getElementById('avatar').src = "./images/14.png"
         document.getElementById('button-action-1').style.display = "none"
         document.getElementById('button-action-2').style.display = "none"
