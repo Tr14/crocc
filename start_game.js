@@ -96,16 +96,17 @@ app.post('/checksheet', async (req, res) => {
                       
                         console.log(filteredArray_dif)
 
-                        if (filteredArray_dif[0].status != "Đã dẹo") {
+                      if (filteredArray_dif[0].status != "Đã dẹo") {
+                        if (filteredArray_dif[0].scanner_status != "Đã dẹo")
                           if (filteredArray_dif[0].role != filteredArray_dif[0].scanner_role) {
                             const inputValues = [user_id, scanner_mobile];
 
                             const { data: { values } } = await sheets.spreadsheets.values.get({ spreadsheetId, range });
                             await sheets.spreadsheets.values.update({
-                                spreadsheetId,
-                                range,
-                                resource: { values: values.map((r) => inputValues.includes(r[0]) ? [r[0], r[1], r[2], r[3], r[4], scanner_mobile] : r) },
-                                valueInputOption: "USER_ENTERED",
+                              spreadsheetId,
+                              range,
+                              resource: { values: values.map((r) => inputValues.includes(r[0]) ? [r[0], r[1], r[2], r[3], r[4], scanner_mobile] : r) },
+                              valueInputOption: "USER_ENTERED",
                             });
                           }
                         }
