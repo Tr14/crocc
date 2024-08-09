@@ -86,15 +86,14 @@ app.post('/checksheet', async (req, res) => {
                         let scanner_role = rows[i][3]
                         let scanner_status = rows[i][4]
                         filteredArray_dif = filteredArray_dif.map(obj => {
-                        return {
-                            ...obj,
-                            scanner_id,
-                            scanner_role,
-                            scanner_status
-                        };
+                          return {
+                              ...obj,
+                              scanner_id,
+                              scanner_role,
+                              scanner_status
+                          };
                         });
-                      
-                        console.log(filteredArray_dif)
+                  
 
                       if (filteredArray_dif[0].status != "Đã dẹo") {
                         if (filteredArray_dif[0].scanner_status != "Đã dẹo")
@@ -116,7 +115,7 @@ app.post('/checksheet', async (req, res) => {
                             list: "filteredArray_dif",
                             received: filteredArray_dif
                         });
-                    }
+                      }
                 }
             }
         } else {
