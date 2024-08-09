@@ -84,11 +84,13 @@ app.post('/checksheet', async (req, res) => {
                     if (rows[i][1] === scanner_mobile) {
                         let scanner_id = rows[i][0]
                         let scanner_role = rows[i][3]
+                        let scanner_status = rows[i][4]
                         filteredArray_dif = filteredArray_dif.map(obj => {
                         return {
                             ...obj,
                             scanner_id,
-                            scanner_role
+                            scanner_role,
+                            scanner_status
                         };
                         });
 

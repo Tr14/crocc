@@ -139,46 +139,191 @@ window.onload = function () {
             fetch("https://dev.akadigital.net/getcrocc", getCrocc)
             .then((response) => response.json())
             .then((result) => {
-                const getScannerMobile = result.received.filter(obj => obj.user_id === scanner_id && obj.status != "Đã dẹo");
-                const isValuePresent = result.received.some(item => item.owner_mobile === coop_mobile && item.role === "Sấu Ham Ăn" && item.user_id != scanner_id);
-                if (isValuePresent) {
-                    postData()
-                    popup.style.display = 'none';
-                    overlay.style.display = 'none';
+                const getScannerMobile = result.received.filter(obj => obj.user_id === scanner_id);
+                const isInArray = result.received.some(item => item.owner_mobile === coop_mobile && item.role === "Sấu Ham Ăn" && item.status != "Đã dẹo");
+                if (isInArray) {
+                    const isValuePresent = result.received.some(item => item.owner_mobile === coop_mobile && item.role === "Sấu Ham Ăn" && item.user_id != scanner_id);
+                    if (isValuePresent) {
+                        postData()
+                        popup.style.display = 'none';
+                        overlay.style.display = 'none';
+                    } else {
+                        document.getElementById('errorMessage').style.display = "block"
+                        document.getElementById('errorMessage').style.color = "red"
+                        document.getElementById('errorMessage').innerHTML = "Đừng có cheat nữa, nhập đúng thông tin nào"
+
+                        async function getIpAddress() {
+                            const response = await fetch('https://api.ipify.org?format=json');
+                            const data = await response.json();
+                            let ip_address = data.ip
+
+                            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+                            let deviceInfo = {
+                                type: "Unknown",
+                                osVersion: "Unknown",
+                                model: "Unknown"
+                            };
+
+                            // Detect iOS devices
+                            if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                                deviceInfo.type = "iOS";
+                                const iOSMatch = userAgent.match(/OS (\d+)[._](\d+)(?:[._](\d+))?/);
+                                if (iOSMatch) {
+                                    deviceInfo.osVersion = `${iOSMatch[1]}.${iOSMatch[2]}.${iOSMatch[3] || 0}`;
+                                }
+                                // The following logic is a simple attempt to guess the device model, not very reliable
+                                if (/iPhone/.test(userAgent)) {
+                                    deviceInfo.model = "iPhone"; // Can be "iPhone 15" if known
+                                } else if (/iPad/.test(userAgent)) {
+                                    deviceInfo.model = "iPad";
+                                }
+                            }
+                            
+                            // Detect Android devices
+                            else if (/android/i.test(userAgent)) {
+                                deviceInfo.type = "Android";
+                                const androidMatch = userAgent.match(/Android (\d+)\.(\d+)(?:\.(\d+))?/);
+                                if (androidMatch) {
+                                    deviceInfo.osVersion = `${androidMatch[1]}.${androidMatch[2]}.${androidMatch[3] || 0}`;
+                                }
+                                // Detect the model name
+                                const modelMatch = userAgent.match(/\((.*?)\)/);
+                                if (modelMatch) {
+                                    const infoParts = modelMatch[1].split(";").map(s => s.trim());
+                                    deviceInfo.model = infoParts[infoParts.length - 1];
+                                }
+                            }
+
+
+                            const myHeaders = new Headers();
+                            myHeaders.append("Content-Type", "application/json");
+
+                            const message_log = "Cố tình mò thông tin cá sấu khác để lụm thợ săn"
+
+                            const raw = JSON.stringify({
+                                ip_address,
+                                deviceInfo,
+                                message_log
+                            });
+
+                            const requestOptions = {
+                                method: "POST",
+                                headers: myHeaders,
+                                body: raw,
+                                redirect: "follow"
+                            };
+
+                            fetch("https://dev.akadigital.net/checkdevice", requestOptions)
+                            .then((response) => response.json())
+                            .then((result) => {})
+                            .catch((error) => console.error(error));
+                        }
+
+                        getIpAddress()
+                    }
+
+                    async function postData() {
+                        const myHeaders = new Headers();
+                        myHeaders.append("Content-Type", "application/json");
+
+                        const raw = JSON.stringify({
+                            "data": [
+                                {
+                                    "ID": user_id,
+                                    "STATUS": "Đã dẹo",
+                                    "SCANNER_MOBILE": getScannerMobile[0].owner_mobile,
+                                    "COOP_MOBILE": coop_mobile
+                                }
+                            ]
+                        });
+
+                        const requestOptions = {
+                            method: "POST",
+                            headers: myHeaders,
+                            body: raw,
+                            redirect: "follow"
+                        };
+
+                        fetch("https://dev.akadigital.net/updatestatus", requestOptions)
+                        .then((response) => response.text())
+                        .then((result) => {
+                            document.getElementById('quoteText').innerHTML = "Tiêu diệt mục tiêu thành công"
+                        })
+                        .catch((error) => console.error(error));
+                    }
                 } else {
                     document.getElementById('errorMessage').style.display = "block"
                     document.getElementById('errorMessage').style.color = "red"
-                    document.getElementById('errorMessage').innerHTML = "Đừng có cheat nữa, nhập đúng thông tin nào"
-                }
+                    document.getElementById('errorMessage').innerHTML = "Khứa kia ngủm rồi, tính cheat gì cơ"
 
-                async function postData() {
-                    const myHeaders = new Headers();
-                    myHeaders.append("Content-Type", "application/json");
+                    async function getIpAddress() {
+                        const response = await fetch('https://api.ipify.org?format=json');
+                        const data = await response.json();
+                        let ip_address = data.ip
 
-                    const raw = JSON.stringify({
-                        "data": [
-                            {
-                                "ID": user_id,
-                                "STATUS": "Đã dẹo",
-                                "SCANNER_MOBILE": getScannerMobile[0].owner_mobile,
-                                "COOP_MOBILE": coop_mobile
+                        const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+                        let deviceInfo = {
+                            type: "Unknown",
+                            osVersion: "Unknown",
+                            model: "Unknown"
+                        };
+
+                        // Detect iOS devices
+                        if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                            deviceInfo.type = "iOS";
+                            const iOSMatch = userAgent.match(/OS (\d+)[._](\d+)(?:[._](\d+))?/);
+                            if (iOSMatch) {
+                                deviceInfo.osVersion = `${iOSMatch[1]}.${iOSMatch[2]}.${iOSMatch[3] || 0}`;
                             }
-                        ]
-                    });
+                            // The following logic is a simple attempt to guess the device model, not very reliable
+                            if (/iPhone/.test(userAgent)) {
+                                deviceInfo.model = "iPhone"; // Can be "iPhone 15" if known
+                            } else if (/iPad/.test(userAgent)) {
+                                deviceInfo.model = "iPad";
+                            }
+                        }
+                        
+                        // Detect Android devices
+                        else if (/android/i.test(userAgent)) {
+                            deviceInfo.type = "Android";
+                            const androidMatch = userAgent.match(/Android (\d+)\.(\d+)(?:\.(\d+))?/);
+                            if (androidMatch) {
+                                deviceInfo.osVersion = `${androidMatch[1]}.${androidMatch[2]}.${androidMatch[3] || 0}`;
+                            }
+                            // Detect the model name
+                            const modelMatch = userAgent.match(/\((.*?)\)/);
+                            if (modelMatch) {
+                                const infoParts = modelMatch[1].split(";").map(s => s.trim());
+                                deviceInfo.model = infoParts[infoParts.length - 1];
+                            }
+                        }
 
-                    const requestOptions = {
-                        method: "POST",
-                        headers: myHeaders,
-                        body: raw,
-                        redirect: "follow"
-                    };
 
-                    fetch("https://dev.akadigital.net/updatestatus", requestOptions)
-                    .then((response) => response.text())
-                    .then((result) => {
-                        document.getElementById('quoteText').innerHTML = "Tiêu diệt mục tiêu thành công"
-                    })
-                    .catch((error) => console.error(error));
+                        const myHeaders = new Headers();
+                        myHeaders.append("Content-Type", "application/json");
+
+                        const message_log = "Định cheat bằng thông tin cá sấu khác không đi chung"
+
+                        const raw = JSON.stringify({
+                            ip_address,
+                            deviceInfo,
+                            message_log
+                        });
+
+                        const requestOptions = {
+                            method: "POST",
+                            headers: myHeaders,
+                            body: raw,
+                            redirect: "follow"
+                        };
+
+                        fetch("https://dev.akadigital.net/checkdevice", requestOptions)
+                        .then((response) => response.json())
+                        .then((result) => {})
+                        .catch((error) => console.error(error));
+                    }
+
+                    getIpAddress()
                 }
             })
             .catch((error) => console.error(error));
