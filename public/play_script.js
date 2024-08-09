@@ -342,7 +342,7 @@ window.onload = function () {
                 } else {
                     document.getElementById('errorMessage').style.display = "block"
                     document.getElementById('errorMessage').style.color = "red"
-                    document.getElementById('errorMessage').innerHTML = "Khứa kia ngủm rồi, tính cheat gì cơ"
+                    document.getElementById('errorMessage').innerHTML = "Sai thông tin, hoặc khứa kia ngủm rồi"
 
                     async function getIpAddress() {
                         const response = await fetch('https://api.ipify.org?format=json');
