@@ -84,6 +84,7 @@ app.post('/checksheet', async (req, res) => {
                         });
 
                         if (filteredArray_dif[0].status != "Đã dẹo") {
+                          if (filteredArray_dif[0].role != filteredArray_dif[0].scanner_role) {
                             const inputValues = [user_id, scanner_mobile];
 
                             const { data: { values } } = await sheets.spreadsheets.values.get({ spreadsheetId, range });
@@ -93,6 +94,7 @@ app.post('/checksheet', async (req, res) => {
                                 resource: { values: values.map((r) => inputValues.includes(r[0]) ? [r[0], r[1], r[2], r[3], r[4], scanner_mobile] : r) },
                                 valueInputOption: "USER_ENTERED",
                             });
+                          }
                         }
 
                         res.status(201).json({
@@ -103,14 +105,12 @@ app.post('/checksheet', async (req, res) => {
                     }
                 }
             }
-            console.log("A")
         } else {
             res.status(201).json({
                 message: 'OK',
                 list: "filteredArray_same",
                 received: filteredArray_same
             });
-            console.log("B")
         }
     }
 })

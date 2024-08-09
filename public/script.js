@@ -56,21 +56,17 @@ button.addEventListener('click', function () {
                 .then((response) => response.json())
                 .then((result_post) => {
                     if (result_post.message === 'FAIL_0' && result_post.list === "filteredArray_dif") {
-                        console.log("A")
                         document.getElementById('errorMessage').innerHTML = "Vui lòng không để trống thông tin"
                         document.getElementById('errorMessage').style.display = "block"
                     }
                     else if (result_post.message === 'FAIL_1' && result_post.list === "filteredArray_dif") {
-                         console.log("B")
                         document.getElementById('errorMessage').innerHTML = "Vui lòng nhập đúng định dạng mobile"
                         document.getElementById('errorMessage').style.display = "block"
                     }
                     else if (result_post.message === 'OK' && result_post.list === "filteredArray_same") {
-                         console.log("C")
                         window.location.href = '/detail?id=' + encodeURIComponent(result_post.received[0].user_id) + "&username=" + encodeURIComponent(result_post.received[0].username) + "&role=" + encodeURIComponent(result_post.received[0].role) + "&status=" + encodeURIComponent(result_post.received[0].status); // Redirect to the next page
                     }
                     else if (result_post.message === 'OK' && result_post.list === "filteredArray_dif") {
-                         console.log("D")
                         window.location.href = '/play?id=' + encodeURIComponent(result_post.received[0].user_id) + "&owner_role=" + encodeURIComponent(result_post.received[0].role) + "&owner_status=" + encodeURIComponent(result_post.received[0].status) + "&scanner_id=" + encodeURIComponent(result_post.received[0].scanner_id) + "&scanner_role=" + encodeURIComponent(result_post.received[0].scanner_role);
                     } else {
                         console.log(result_post)
