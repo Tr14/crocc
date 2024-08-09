@@ -33,33 +33,10 @@ const sheets = google.sheets({ auth, version: "v4" }); // This is from your show
 const spreadsheetId = "1GPLirSLi1oH6Zcu2fOjiSHsxNdCrMz_-jPXiSAmQ3gk"; // Please set your Spreadsheet ID.
 const range = "user!A2:H"; // Please set your sheet name.
 
-let eventData = []
-
-app.post('/checkdevice', async (req, res) => { 
-  eventData.push(req.body)
-  res.send("OK")
+app.post('/checkdevice', async (req, res) => {
+  console.log(req.body.ip_address)
+  console.log(req.body.deviceInfo)
 })
-
-async function sendToSheet() {
-  if (eventData.length) {
-    let data = eventData.pop();
-    for (let i = 0; i < data.length; i++) { 
-      var ip_address = data[i].ip_address
-      var type = data[i].deviceInfo.type
-      var model = data[i].deviceInfo.model
-      var osVersion = data[i].deviceInfo.osVersion
-
-      await sheets.spreadsheets.values.append({
-        spreadsheetId,
-        range: "serverlog",
-        valueInputOption: "USER_ENTERED",
-        requestBody: { majorDimension: "ROWS", values: [[ip_address, type, model, osVersion]] },
-      });
-    }
-  }
-}
-
-sendToSheet()
 
 app.post('/checksheet', async (req, res) => {
     const response = await sheets.spreadsheets.values.get({
