@@ -194,6 +194,7 @@ button.addEventListener('click', function () {
             fetch("https://dev.akadigital.net/checksheet", requestOptions)
                 .then((response) => response.json())
                 .then((result_post) => {
+                    console.log(result_post)
                     if (result_post.message === 'FAIL_0' && result_post.list === "filteredArray_dif") {
                         document.getElementById('errorMessage').innerHTML = "Vui lòng không để trống thông tin"
                         document.getElementById('errorMessage').style.display = "block"
