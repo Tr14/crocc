@@ -28,8 +28,17 @@ window.onload = function () {
     let button1Clicked = false
     let button2Clicked = false
 
-    // Cá sấu hẹo mà còn đòi quét
+    // Cá sấu hẹo mà còn đòi quét ==========================================================================================> Xong
     if (scanner_role === "Sấu Ham Ăn" && scanner_status === "Đã dẹo") {
+        document.getElementById('avatar').src = "./images/8.png"
+        document.getElementById('button-action-1').style.display = "none"
+        document.getElementById('button-action-2').style.display = "none"
+        document.getElementById('quoteText').innerHTML = "Dẹo rồi mà còn rướn làm gì"
+        document.getElementById('quoteText').style.top = "77.5%"
+        document.getElementById('quoteText').style.color = "red"
+    }
+    // Thợ săn hẹo mà còn đòi quét =========================================================================================> Xong
+    else if (scanner_role === "Võ Tòng Lòng Vòng Bắt Sấu" && scanner_status === "Đã dẹo") {
         document.getElementById('avatar').src = "./images/8.png"
         document.getElementById('button-action-1').style.display = "none"
         document.getElementById('button-action-2').style.display = "none"
