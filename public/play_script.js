@@ -602,6 +602,7 @@ window.onload = function () {
             .then((response) => response.text())
             .then((result) => {})
             .catch((error) => console.error(error));
+        document.getElementById('imageSrc0').src = "./images/img_roll_danlang.png"
         document.getElementById('avatar').src = "./images/13.png"
         document.getElementById('button-action-1').style.display = "none"
         document.getElementById('button-action-2').style.display = "none"
@@ -620,7 +621,7 @@ window.onload = function () {
     }
     // Dân quét trúng thợ săn ==============================================================================================> Xong
     else if (owner_role === "Võ Tòng Lòng Vòng Bắt Sấu" && scanner_role === "Dân Lương Thiện") {
-        document.getElementById('imageSrc0').src = "./images/img_roll_thosan.png"
+        document.getElementById('imageSrc0').src = "./images/img_roll_danlang.png"
         document.getElementById('avatar').src = "./images/15.png"
         document.getElementById('button-action-1').style.display = "none"
         document.getElementById('button-action-2').style.display = "none"
