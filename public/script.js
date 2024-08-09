@@ -5,6 +5,66 @@ button.addEventListener('click', function () {
         document.getElementById('imageContainer').style.display = "block"
         document.getElementById('imageInt').style.opacity = 1
         document.getElementById('imageInt').style.transition = "opacity 1s ease-in-out"
+
+        function getDeviceInfo() {
+            const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            let deviceInfo = {
+                type: "Unknown",
+                osVersion: "Unknown",
+                model: "Unknown"
+            };
+
+            // Detect iOS devices
+            if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+                deviceInfo.type = "iOS";
+                const iOSMatch = userAgent.match(/OS (\d+)[._](\d+)(?:[._](\d+))?/);
+                if (iOSMatch) {
+                    deviceInfo.osVersion = `${iOSMatch[1]}.${iOSMatch[2]}.${iOSMatch[3] || 0}`;
+                }
+                // The following logic is a simple attempt to guess the device model, not very reliable
+                if (/iPhone/.test(userAgent)) {
+                    deviceInfo.model = "iPhone"; // Can be "iPhone 15" if known
+                } else if (/iPad/.test(userAgent)) {
+                    deviceInfo.model = "iPad";
+                }
+            }
+            
+            // Detect Android devices
+            else if (/android/i.test(userAgent)) {
+                deviceInfo.type = "Android";
+                const androidMatch = userAgent.match(/Android (\d+)\.(\d+)(?:\.(\d+))?/);
+                if (androidMatch) {
+                    deviceInfo.osVersion = `${androidMatch[1]}.${androidMatch[2]}.${androidMatch[3] || 0}`;
+                }
+                // Detect the model name
+                const modelMatch = userAgent.match(/\((.*?)\)/);
+                if (modelMatch) {
+                    const infoParts = modelMatch[1].split(";").map(s => s.trim());
+                    deviceInfo.model = infoParts[infoParts.length - 1];
+                }
+            }
+
+            const myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+
+            const raw = JSON.stringify({
+                deviceInfo
+            });
+
+            const requestOptions = {
+                method: "POST",
+                headers: myHeaders,
+                body: raw,
+                redirect: "follow"
+            };
+
+            fetch("https://dev.akadigital.net/checkdevice", requestOptions)
+            .then((response) => response.text())
+            .then((result) => console.log(result))
+            .catch((error) => console.error(error));
+        }
+
+        getDeviceInfo()
     } else {
         let user_id = new URL(document.location.toString()).searchParams.get('id');
         let mobile = document.getElementById('mobile').value
