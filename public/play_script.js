@@ -28,28 +28,84 @@ window.onload = function () {
     let button1Clicked = false
     let button2Clicked = false
 
-    // Cá sấu hẹo mà còn đòi quét ==========================================================================================> Xong
-    if (scanner_role === "Sấu Ham Ăn" && scanner_status === "Đã dẹo") {
-        document.getElementById('avatar').src = "./images/8.png"
-        document.getElementById('button-action-1').style.display = "none"
-        document.getElementById('button-action-2').style.display = "none"
-        document.getElementById('quoteText').innerHTML = "Dẹo rồi mà còn rướn làm gì"
-        document.getElementById('quoteText').style.top = "77.5%"
-        document.getElementById('quoteText').style.color = "red"
-    }
-    // Thợ săn hẹo mà còn đòi quét =========================================================================================> Xong
-    else if (scanner_role === "Võ Tòng Lòng Vòng Bắt Sấu" && scanner_status === "Đã dẹo") {
-        document.getElementById('imageSrc0').src = "./images/img_roll_thosan.png"
-        document.getElementById('avatar').src = "./images/8.png"
-        document.getElementById('button-action-1').style.display = "none"
-        document.getElementById('button-action-2').style.display = "none"
-        document.getElementById('quoteText').innerHTML = "Dẹo rồi mà còn rướn làm gì"
-        document.getElementById('quoteText').style.top = "77.5%"
-        document.getElementById('quoteText').style.color = "red"
-    }
     // Dân hẹo mà còn đòi quét =============================================================================================> Xong
-    else if (scanner_role === "Dân Lương Thiện" && scanner_status === "Đã dẹo") {
+    if (scanner_role === "Dân Lương Thiện" && scanner_status === "Đã dẹo") {
         document.getElementById('imageSrc0').src = "./images/img_roll_danlang.png"
+        document.getElementById('avatar').src = "./images/8.png"
+        document.getElementById('button-action-1').style.display = "none"
+        document.getElementById('button-action-2').style.display = "none"
+        document.getElementById('quoteText').innerHTML = "Dẹo rồi mà còn rướn làm gì"
+        document.getElementById('quoteText').style.top = "77.5%"
+        document.getElementById('quoteText').style.color = "red"
+    }
+    // Dân quét trúng dân ==================================================================================================> Xong
+    else if (owner_role === "Dân Lương Thiện" && scanner_role === "Dân Lương Thiện") {
+        document.getElementById('imageSrc0').src = "./images/img_roll_danlang.png"
+        document.getElementById('avatar').src = "./images/14.png"
+        document.getElementById('button-action-1').style.display = "none"
+        document.getElementById('button-action-2').style.display = "none"
+        document.getElementById('quoteText').innerHTML = "Đoàn kết, hay là tự lo đi!"
+        document.getElementById('quoteText').style.top = "77.5%"
+        document.getElementById('quoteText').style.color = "#04AA6D"
+    }
+    // Dân quét trúng cá sấu còn sống ======================================================================================> Xong
+    else if (owner_role === "Sấu Ham Ăn" && scanner_role === "Dân Lương Thiện" && owner_status === "Còn sống") {
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        const raw = JSON.stringify({
+            "data": [
+                {
+                    "ID": scanner_id,
+                    "STATUS": "Đã dẹo",
+                    "DESC": "Tự chui vào rọ"
+                }
+            ]
+        });
+
+        const requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow"
+        };
+
+        fetch("https://dev.akadigital.net/updatestatus", requestOptions)
+            .then((response) => response.text())
+            .then((result) => {})
+            .catch((error) => console.error(error));
+        document.getElementById('imageSrc0').src = "./images/img_roll_danlang.png"
+        document.getElementById('avatar').src = "./images/13.png"
+        document.getElementById('button-action-1').style.display = "none"
+        document.getElementById('button-action-2').style.display = "none"
+        document.getElementById('quoteText').innerHTML = "Dù không thắng, thì ít nhất cũng troll!"
+        document.getElementById('quoteText').style.top = "76.5%"
+        document.getElementById('quoteText').style.color = "red"
+    }
+    // Dân quét trúng cá sấu đã chết =======================================================================================> Xong
+    else if (owner_role === "Sấu Ham Ăn" && scanner_role === "Dân Lương Thiện" && owner_status === "Đã dẹo") {
+        document.getElementById('imageSrc0').src = "./images/img_roll_danlang.png"
+        document.getElementById('avatar').src = "./images/12.png"
+        document.getElementById('button-action-1').style.display = "none"
+        document.getElementById('button-action-2').style.display = "none"
+        document.getElementById('quoteText').innerHTML = "Ghi công chứ không có ghi điểm"
+        document.getElementById('quoteText').style.top = "77.5%"
+        document.getElementById('quoteText').style.color = "#04AA6D"
+    }
+    // Dân quét trúng thợ săn ==============================================================================================> Xong
+    else if (owner_role === "Võ Tòng Lòng Vòng Bắt Sấu" && scanner_role === "Dân Lương Thiện") {
+        document.getElementById('imageSrc0').src = "./images/img_roll_danlang.png"
+        document.getElementById('avatar').src = "./images/15.png"
+        document.getElementById('button-action-1').style.display = "none"
+        document.getElementById('button-action-2').style.display = "none"
+        document.getElementById('quoteText').innerHTML = "Cứ bình tĩnh, ai cũng rối mà!"
+        document.getElementById('quoteText').style.top = "77.5%"
+        document.getElementById('quoteText').style.color = "#04AA6D"
+    }
+        
+        
+    // Cá sấu hẹo mà còn đòi quét ==========================================================================================> Xong
+    else if (scanner_role === "Sấu Ham Ăn" && scanner_status === "Đã dẹo") {
         document.getElementById('avatar').src = "./images/8.png"
         document.getElementById('button-action-1').style.display = "none"
         document.getElementById('button-action-2').style.display = "none"
@@ -68,7 +124,7 @@ window.onload = function () {
     }
     // Cá sấu quét trúng thợ săn còn sống ==================================================================================> Xong
     else if (owner_role === "Võ Tòng Lòng Vòng Bắt Sấu" && scanner_role === "Sấu Ham Ăn" && owner_status === "Còn sống") {
-        document.getElementById('imageSrc0').src = "./images/img_roll_thosan.png"
+        document.getElementById('imageSrc0').src = "./images/img_roll_casau.png"
         document.getElementById('imageSrc0').style.paddingTop = 0
         document.getElementById('avatar').src = "./images/11.png"
         document.getElementById('quoteText').innerHTML = "Thắng không quan trọng, quan trọng là bạn phải thắng."
@@ -366,7 +422,7 @@ window.onload = function () {
     }
     // Cá sấu quét trúng thợ săn đã chết ===================================================================================> Xong
     else if (owner_role === "Võ Tòng Lòng Vòng Bắt Sấu" && scanner_role === "Sấu Ham Ăn" && owner_status === "Đã dẹo") {
-        document.getElementById('imageSrc0').src = "./images/img_roll_thosan.png"
+        document.getElementById('imageSrc0').src = "./images/img_roll_casau.png"
         document.getElementById('avatar').src = "./images/12.png"
         document.getElementById('button-action-1').style.display = "none"
         document.getElementById('button-action-2').style.display = "none"
@@ -376,7 +432,7 @@ window.onload = function () {
     }
     // Cá sấu quét trúng dân còn sống ======================================================================================> Xong
     else if (owner_role === "Dân Lương Thiện" && scanner_role === "Sấu Ham Ăn" && owner_status === "Còn sống") {
-        document.getElementById('imageSrc0').src = "./images/img_roll_danlang.png"
+        document.getElementById('imageSrc0').src = "./images/img_roll_casau.png"
         document.getElementById('avatar').src = "./images/9.png"
         document.getElementById('imageSrc1').style.maxWidth = "40%"
         document.getElementById('imageSrc2').style.top = "89%"
@@ -458,7 +514,7 @@ window.onload = function () {
     }
     // Cá sấu quét trúng dân đã chết =======================================================================================> Xong
     else if (owner_role === "Dân Lương Thiện" && scanner_role === "Sấu Ham Ăn" && owner_status === "Đã dẹo") {
-        document.getElementById('imageSrc0').src = "./images/img_roll_danlang.png"
+        document.getElementById('imageSrc0').src = "./images/img_roll_casau.png"
         document.getElementById('avatar').src = "./images/10.png"
         document.getElementById('button-action-1').style.display = "none"
         document.getElementById('button-action-2').style.display = "none"
@@ -466,8 +522,21 @@ window.onload = function () {
         document.getElementById('quoteText').style.top = "76.5%"
         document.getElementById('quoteText').style.color = "#04AA6D"
     }
+        
+        
+    // Thợ săn hẹo mà còn đòi quét =========================================================================================> Xong
+    else if (scanner_role === "Võ Tòng Lòng Vòng Bắt Sấu" && scanner_status === "Đã dẹo") {
+        document.getElementById('imageSrc0').src = "./images/img_roll_thosan.png"
+        document.getElementById('avatar').src = "./images/8.png"
+        document.getElementById('button-action-1').style.display = "none"
+        document.getElementById('button-action-2').style.display = "none"
+        document.getElementById('quoteText').innerHTML = "Dẹo rồi mà còn rướn làm gì"
+        document.getElementById('quoteText').style.top = "77.5%"
+        document.getElementById('quoteText').style.color = "red"
+    }
     // Thợ săn quét trúng cá sấu còn sống ==================================================================================> Xong
     else if (owner_role === "Sấu Ham Ăn" && scanner_role === "Võ Tòng Lòng Vòng Bắt Sấu" && owner_status === "Còn sống") {
+        document.getElementById('imageSrc0').src = "./images/img_roll_thosan.png"
         document.getElementById('avatar').src = "./images/9.png"
         document.getElementById('imageSrc1').style.maxWidth = "40%"
         document.getElementById('imageSrc2').style.top = "89%"
@@ -568,75 +637,12 @@ window.onload = function () {
     }
     // Thợ săn quét trúng dân ==============================================================================================> Xong
     else if (owner_role === "Dân Lương Thiện" && scanner_role === "Võ Tòng Lòng Vòng Bắt Sấu") {
-        document.getElementById('imageSrc0').src = "./images/img_roll_danlang.png"
+        document.getElementById('imageSrc0').src = "./images/img_roll_thosan.png"
         document.getElementById('avatar').src = "./images/16.png"
         document.getElementById('button-action-1').style.display = "none"
         document.getElementById('button-action-2').style.display = "none"
         document.getElementById('quoteText').innerHTML = "Cứ bình tĩnh, ai cũng rối mà!"
         document.getElementById('quoteText').style.top = "76.5%"
-        document.getElementById('quoteText').style.color = "#04AA6D"
-    }
-    // Dân quét trúng cá sấu còn sống ======================================================================================> Xong
-    else if (owner_role === "Sấu Ham Ăn" && scanner_role === "Dân Lương Thiện" && owner_status === "Còn sống") {
-        const myHeaders = new Headers();
-        myHeaders.append("Content-Type", "application/json");
-
-        const raw = JSON.stringify({
-            "data": [
-                {
-                    "ID": scanner_id,
-                    "STATUS": "Đã dẹo",
-                    "DESC": "Tự chui vào rọ"
-                }
-            ]
-        });
-
-        const requestOptions = {
-            method: "POST",
-            headers: myHeaders,
-            body: raw,
-            redirect: "follow"
-        };
-
-        fetch("https://dev.akadigital.net/updatestatus", requestOptions)
-            .then((response) => response.text())
-            .then((result) => {})
-            .catch((error) => console.error(error));
-        document.getElementById('imageSrc0').src = "./images/img_roll_danlang.png"
-        document.getElementById('avatar').src = "./images/13.png"
-        document.getElementById('button-action-1').style.display = "none"
-        document.getElementById('button-action-2').style.display = "none"
-        document.getElementById('quoteText').innerHTML = "Dù không thắng, thì ít nhất cũng troll!"
-        document.getElementById('quoteText').style.top = "76.5%"
-        document.getElementById('quoteText').style.color = "red"
-    }
-    // Dân quét trúng cá sấu đã chết =======================================================================================> Xong
-    else if (owner_role === "Sấu Ham Ăn" && scanner_role === "Dân Lương Thiện" && owner_status === "Đã dẹo") {
-        document.getElementById('avatar').src = "./images/12.png"
-        document.getElementById('button-action-1').style.display = "none"
-        document.getElementById('button-action-2').style.display = "none"
-        document.getElementById('quoteText').innerHTML = "Ghi công chứ không có ghi điểm"
-        document.getElementById('quoteText').style.top = "77.5%"
-        document.getElementById('quoteText').style.color = "#04AA6D"
-    }
-    // Dân quét trúng thợ săn ==============================================================================================> Xong
-    else if (owner_role === "Võ Tòng Lòng Vòng Bắt Sấu" && scanner_role === "Dân Lương Thiện") {
-        document.getElementById('imageSrc0').src = "./images/img_roll_danlang.png"
-        document.getElementById('avatar').src = "./images/15.png"
-        document.getElementById('button-action-1').style.display = "none"
-        document.getElementById('button-action-2').style.display = "none"
-        document.getElementById('quoteText').innerHTML = "Cứ bình tĩnh, ai cũng rối mà!"
-        document.getElementById('quoteText').style.top = "77.5%"
-        document.getElementById('quoteText').style.color = "#04AA6D"
-    }
-    // Dân quét trúng dân ==================================================================================================> Xong
-    else if (owner_role === "Dân Lương Thiện" && scanner_role === "Dân Lương Thiện") {
-        document.getElementById('imageSrc0').src = "./images/img_roll_danlang.png"
-        document.getElementById('avatar').src = "./images/14.png"
-        document.getElementById('button-action-1').style.display = "none"
-        document.getElementById('button-action-2').style.display = "none"
-        document.getElementById('quoteText').innerHTML = "Đoàn kết, hay là tự lo đi!"
-        document.getElementById('quoteText').style.top = "77.5%"
         document.getElementById('quoteText').style.color = "#04AA6D"
     }
 }

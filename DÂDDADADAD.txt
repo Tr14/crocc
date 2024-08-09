@@ -1,0 +1,38 @@
+dân dẹo
+Dân		OK
+Sấu		OK
+Thợ		OK
+
+dân còn sống
+Dân sống	OK
+Dân dẹo		OK
+Sấu sống	OK
+Sấu dẹo		OK
+Thợ sống	OK
+Thợ dẹo		OK
+
+sấu dẹo
+Dân		OK
+Sấu		OK
+Thợ		OK
+
+sấu còn sống
+Dân sống	OK
+Dân dẹo		OK
+Sấu sống	OK
+Sấu dẹo		OK
+Thợ sống	OK
+Thợ dẹo		OK
+
+thợ dẹo
+Dân		OK
+Sấu		OK
+Thợ		OK
+
+thợ còn sống
+Dân sống	OK
+Dân dẹo		OK
+Sấu sống	OK
+Sấu dẹo		OK		
+Thợ sống	OK
+Thợ dẹo		OK

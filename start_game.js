@@ -97,17 +97,19 @@ app.post('/checksheet', async (req, res) => {
 
                       if (filteredArray_dif[0].status != "Đã dẹo") {
                         if (filteredArray_dif[0].scanner_status != "Đã dẹo")
-                          if (filteredArray_dif[0].scanner_role != "Dân Lương Thiện") {
-                            if (filteredArray_dif[0].role != filteredArray_dif[0].scanner_role) {
-                              const inputValues = [user_id, scanner_mobile];
+                          if (filteredArray_dif[0].scanner_role === "Sấu Ham Ăn" || filteredArray_dif[0].scanner_role === "Võ Tòng Lòng Vòng Bắt Sấu") {
+                            if (filteredArray_dif[0].role != "Dân Lương Thiện") {
+                              if (filteredArray_dif[0].role != filteredArray_dif[0].scanner_role) {
+                                const inputValues = [user_id, scanner_mobile];
 
-                              const { data: { values } } = await sheets.spreadsheets.values.get({ spreadsheetId, range });
-                              await sheets.spreadsheets.values.update({
-                                spreadsheetId,
-                                range,
-                                resource: { values: values.map((r) => inputValues.includes(r[0]) ? [r[0], r[1], r[2], r[3], r[4], scanner_mobile] : r) },
-                                valueInputOption: "USER_ENTERED",
-                              });
+                                const { data: { values } } = await sheets.spreadsheets.values.get({ spreadsheetId, range });
+                                await sheets.spreadsheets.values.update({
+                                  spreadsheetId,
+                                  range,
+                                  resource: { values: values.map((r) => inputValues.includes(r[0]) ? [r[0], r[1], r[2], r[3], r[4], scanner_mobile] : r) },
+                                  valueInputOption: "USER_ENTERED",
+                                });
+                              }
                             }
                           }
                         }
