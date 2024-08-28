@@ -223,6 +223,10 @@ app.get('/gethunter', async (req, res) => {
     });
 })
 
+app.post('/send', async (req, res) => {
+  res.send(req.body)
+})
+
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', '/index.html'));
 });
