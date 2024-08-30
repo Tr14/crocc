@@ -225,6 +225,7 @@ app.get('/gethunter', async (req, res) => {
 
 app.post('/send', async (req, res) => {
   console.log(req.body)
+  console.log(req.body.events[0].data)
   res.send(req.body)
 })
 
