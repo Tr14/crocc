@@ -224,6 +224,7 @@ app.get('/gethunter', async (req, res) => {
 })
 
 app.post('/send', async (req, res) => {
+  console.log(req.body)
   res.send(req.body)
 })
 
