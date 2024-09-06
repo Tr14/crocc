@@ -229,6 +229,10 @@ app.post('/send', async (req, res) => {
   res.send(req.body)
 })
 
+app.post('/webhook_test', async (req, res) => {
+  res.send("OK")
+})
+
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', '/index.html'));
 });
