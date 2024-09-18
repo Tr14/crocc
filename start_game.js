@@ -230,7 +230,7 @@ app.post('/send', async (req, res) => {
 })
 
 app.post('/webhook_test', async (req, res) => {
-  console.log(req.body)
+  console.log(req)
   res.send("OK")
 })
 
