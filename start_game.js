@@ -4,6 +4,10 @@ const express = require('express')
 const app = express()
 const port = 1337
 
+const bodyParser = require('body-parser');
+
+app.use(bodyParser);
+
 var cors = require('cors');
 
 app.use(express.json())
@@ -230,8 +234,8 @@ app.post('/send', async (req, res) => {
 })
 
 app.post('/webhook_test', async (req, res) => {
-  console.log(req.body.data)
-  res.send(req.body.data)
+  console.log(req.body)
+  res.send("OK")
 })
 
 app.get('/', (req, res) => {
